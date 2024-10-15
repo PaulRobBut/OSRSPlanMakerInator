@@ -1,0 +1,37 @@
+(Total GP is always displayed)
+(At all times, typing Exit goes to previous menus in the tree)
+Main Menu:
+	Displays the following options:
+		Chance Items
+		Inventory
+		Main Goals
+		Edit
+Edit Mode:
+	Displays the following options:
+		Edit Chance Items
+		Edit Inventory
+		Edit Main Goals
+		Load Plan
+		Save Plan
+Chance Items:
+	Chance Item Object:
+		Name (String)
+		Amount (Integer)
+		Price (Integer)
+		Good Items (String Array)
+		Bad Items (String Array)
+	(Only the first three variables are printed initially. Type in Chance Item to view its good and bad items)
+	(A Prompt will say Buy #?, this means that if you type in 'Buy (Number of items you want)' You will buy X of that item if you have the GP)
+Edit Chance Items:
+	Displays the following options:
+		Add Chance Item
+			First Prompts you to enter item name
+			Then Price
+			Then Good Items (type 'next' to go to junk)
+			Then Junk Items (type 'next' to finalize)
+		Adjust Chance Item
+			Type Chance Item name
+				Enter Proper Price
+				Enter Proper amount you have
+				
+		Delete Chance Item

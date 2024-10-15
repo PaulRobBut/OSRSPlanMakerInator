@@ -1,0 +1,69 @@
+class Player():
+    """
+    Represents the Player Character
+    :param n: Player Name
+    :param c: Player Coordinates
+    :param i: Player Inventory, defaults to empty
+    :param mh: Player max health, defaults to 25
+    :param h: Player health, defaults to 25
+    """
+    def __init__(self, n, c, i = [], mh = 25, h = 25):
+        self.name = n
+        ##Overworld
+        self.coords = c
+        self.inventory = Inventory(i)
+        ##Battle
+        self.maxHealth = mh
+        self.health = h
+
+    def move(self, d, miX, miY, maX, maY):
+        if d == "up":
+            if self.coords[1] == maY:
+                print("You cannot go further.")
+            else:
+                self.coords[1] += 1
+        elif d == "down":
+            if self.coords[1] == miY:
+                print("You cannot go further.")
+            else:
+                self.coords[1] -= 1
+        elif d == "right":
+            if self.coords[0] == maX:
+                print("You cannot go further.")
+            else:
+                self.coords[0] += 1
+        elif d == "left":
+            if self.coords[0] == miX:
+                print("You cannot go further.")
+            else:
+                self.coords[0] -= 1
+
+    def collect(self, i):
+        print("You got: " + i._name + "!")
+        self.inventory.addItem(i)
+
+    def hasItem(self, i):
+        return self.inventory.hasItem(i)
+
+    def removeItem(self, i):
+        self.inventory.removeItem(i)
+                
+    def infoDump(self):
+        print("Name: " + self.name)
+        print("Coordinates: " + str(self.coords))
+        print("Inventory: ")
+        for item in self.inventory.saveInven():
+            item.infoDump()
+
+    def savePlayer(self):
+        savP = "{}:|{}:|".format(self.name, self.coords)
+        pInv = []
+        for item in self.inventory.saveInven():
+            pInv.append(item.saveItem())
+        savP += (str (pInv) + ":|")
+        savP += (str(self.health) + "|" + str(self.maxHealth) + ":|")
+        return savP
+
+    ##Todo: String to player
+
+    you = antGusModl.Player(yourName, youPl)
