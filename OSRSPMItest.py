@@ -1,5 +1,9 @@
 import OSRSPlanSaver
 
+progStateStack = ["Main Menu"]
+progNextStates = ["Chance Items", "Inventory", "Main Goals", "Edit"]
+
+## Classes
 class ChanceItem():
     def __init__(self, n = "Commorb", a = 0, p = 1, g = [], b = []):
         self.name = n
@@ -15,8 +19,22 @@ class ChanceItem():
         print(self.good_items)
         print(self.bad_items)
 
-progStateStack = ["Main Menu"]
-progNextStates = ["Chance Items", "Inventory", "Main Goals", "Edit"]
+## Functions
+def setState(menuChoice, validChoices):
+    validChoices.clear()
+    print(menuChoice)
+    if menuChoice == "Main Menu":
+        validChoices.append("Chance Items")
+        validChoices.append("Inventory")
+        validChoices.append("Main Goals")
+        validChoices.append("Edit")
+    elif menuChoice == "Edit":
+        validChoices.append("Edit Chance Items")
+        validChoices.append("Edit Inventory")
+        validChoices.append("Edit Main Goals")
+        validChoices.append("Load Plans")
+        validChoices.append("Save Plans")
+
 ## 0 = Main Menu
 ## 1 = Chance Items
 ## 2 = Inventory
@@ -31,10 +49,24 @@ progNextStates = ["Chance Items", "Inventory", "Main Goals", "Edit"]
 ## test = ChanceItem("Baby Impling Jar", 0, 1000, ["Basically", "Nothing"], ["Everything Else"])
 userChoice = ""
 while len(progStateStack) > 0:
-    userChoice = input("Say Something: ")
+    print("You are here: " + progStateStack[len(progStateStack) - 1])
+    print("Submenus: ")
+    print("------")
+    for i in progNextStates:
+        print(i)
+    print("------")
+    print("Choose one of these, or type 'exit' to go to the previous menu.")
+    userChoice = input("-> ")
+    if userChoice != "exit":
+        if userChoice not in progNextStates:
+            print("Invalid Selection")
+        else:
+            progStateStack.append(userChoice)
+            print([progStateStack])
+            setState(userChoice, progNextStates)
+    else:
+        progStateStack.pop()
+        if (len(progStateStack) > 0):
+            print(progStateStack[len(progStateStack) - 1])
+            setState(progStateStack[len(progStateStack) - 1], progNextStates)
     print(userChoice)
-    print(progStateStack.pop())
-
-OSRSPlanSaver.loadPlan()
-OSRSPlanSaver.savePlan("Testo!")
-OSRSPlanSaver.loadPlan()
