@@ -1,3 +1,5 @@
+import OSRSPlanSaver
+
 class ChanceItem():
     def __init__(self, n = "Commorb", a = 0, p = 1, g = [], b = []):
         self.name = n
@@ -26,11 +28,13 @@ progNextStates = ["Chance Items", "Inventory", "Main Goals", "Edit"]
 ## 8 = Load Plans
 ## 9 = Save Plans
 
-test = ChanceItem("Baby Impling Jar", 0, 1000, ["Basically", "Nothing"], ["Everything Else"])
-print("Doot")
-test.printChanceItem()
+## test = ChanceItem("Baby Impling Jar", 0, 1000, ["Basically", "Nothing"], ["Everything Else"])
 userChoice = ""
 while len(progStateStack) > 0:
     userChoice = input("Say Something: ")
     print(userChoice)
     print(progStateStack.pop())
+
+OSRSPlanSaver.loadPlan()
+OSRSPlanSaver.savePlan("Testo!")
+OSRSPlanSaver.loadPlan()

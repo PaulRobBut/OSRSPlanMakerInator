@@ -67,3 +67,80 @@ class Player():
     ##Todo: String to player
 
     you = antGusModl.Player(yourName, youPl)
+
+antGusLST:
+
+import os
+from antGusModl import Player, Item
+
+## String Methods
+def fetchInput(x = "Test Prompt: ", y = False):
+    """
+    Returns a string the player input
+    :param x: Input prompt
+    :param y: converts to lower case to disregard capitalization, automatically set to false
+    :return: the player's input
+    """
+    z = input(x)
+    z = z.strip()
+    if (y):
+        z = z.lower()
+    return z
+
+## Saving
+def saveFile(pla, wor, ver):
+    """
+    Saves File
+    :param pla: Player Object
+    :param wor: World Variables
+    key:
+    (Player Name):|(Player Coordinates):|&(Overworld Items)
+    """
+    print(pla.name)
+    if (pla.name == "NoSave"):
+        print("Because you are on a No Save file, nothing will be saved")
+    else: 
+        fNam = "savFil" + pla.name + ".txt"
+        saveLines = []
+        ## Step 1: Save Version
+        saveLines.append("Version::" + ver + ":|&\n")
+        ## Step 2: Save Player
+        saveLines.append("Player::" + pla.savePlayer() + ":|&\n")
+        ## Step 3: Save Overworld Items
+        overIts = wor[0]
+        ovItSav = []
+        for item in overIts:
+            ovItSav.append(str(item) + "|." + overIts[item].saveItem())
+        saveLines.append("OverItems::" + str(ovItSav) + ":|&\n")
+        ## Step 4: Save Overworld Stations
+        overStats = wor[1]
+        ovStSav = []
+        for station in overStats:
+            print(overStats[station].saveStation())
+            ovStSav.append(str(station) + "|." + overStats[station].saveStation())
+        saveLines.append("OverStations::" + str(ovStSav))
+        
+        with open(fNam, "w") as g:
+            for s in saveLines:
+                g.write(s)
+
+## Loading
+def loadFile():
+    """
+    """
+    loadedLines = []
+    validFiles = []
+    for x in os.listdir():
+        if x in os.listdir():
+            if x.startswith("savFil") and x.endswith(".txt"):
+                validFiles.append(x[6:len(x) - 4])
+    print("Files: " + str(validFiles))
+    uNam = fetchInput("Which file? ")
+    if uNam not in validFiles:
+        print("Invalid file name, loading default file")
+        uNam = ""
+    lFil = "savFil" + uNam + ".txt"
+    with open(lFil, "r") as g:
+        for r in g:
+            loadedLines.append(r)
+    return loadedLines
