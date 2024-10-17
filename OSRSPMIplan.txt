@@ -1,18 +1,18 @@
 TODO:
-Initialize Chance Items
-Initialize Inventory
-	Create Inventory Item Object
-		Inventory Item Key (integer)
-		Inventory Item Name (string)
-		Inventory Item Amount (integer)
-	Create method for iventory items to stack
 
-Initialize Main Goals
-	Create Main Goal Object
-		Main Goal Key (integer)
-		Main Goal Name (String)
-		Main Goal Description (String)
-	Store Goals in a Map, so individual goals can be accessed at a time
+Map-Key system:
+	Item/Goal is generated
+	Item/Goal map is searched for if they have a match with the name
+	if they do, then grab that value
+	if not, either:
+		if adding: append dictionary with a new KVP, using the Item/Goal's name as they key, the object itself as the value
+		if searching: return a "Value not found" message
+	//Item/Goal is generated with an initial key of 0
+	//(May come back to this, but for now it just seems like the key value just overcomplicates this
+	//For now, just make the name the key)
+Inventory Viewer
+Chance Item Shop
+Main Goals Viewer
 
 (Total GP is always displayed)
 (At all times, typing Exit goes to previous menus in the tree)

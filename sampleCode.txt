@@ -68,6 +68,8 @@ class Player():
 
     you = antGusModl.Player(yourName, youPl)
 
+    overItems = dict()
+
 antGusLST:
 
 import os

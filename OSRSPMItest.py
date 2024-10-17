@@ -24,27 +24,29 @@ class ChanceItem():
         print(self.itemNeeded)
 
 class InvenItem():
-    def __init__(self, k, n, a):
-        self.key = k
+    def __init__(self, n, a):
         self.name = n
         self.amount = a
 
     def compare(self, o): ## o: other item to compare
-        if self.name == o.name:
-            self.amount += o.amount
-            return True
-        else:
-            return False
+        self.amount += o.amount
+        ## Just in case 
+        ## if self.name == o.name:
+        ##     return True
+        ## else:
+        ##     return False
 
     def printInvenItem(self):
         print(self.name + " " + str(self.amount))
 
 
 class MainGoal():
-    def __init__(self, k, n, d):
-        self.key = k
+    def __init__(self, n, d):
         self.name = n
         self.description = d
+
+    def printMainGoal(self):
+        print(self.name + ": " + self.description)
 
 ## Functions
 def setState(menuChoice, validChoices):
@@ -62,6 +64,8 @@ def setState(menuChoice, validChoices):
         validChoices.append("Load Plans")
         validChoices.append("Save Plans")
 
+    
+
 ## 0 = Main Menu
 ## 1 = Chance Items
 ## 2 = Inventory
@@ -76,6 +80,8 @@ def setState(menuChoice, validChoices):
 ## Variables
 userChoice = "" ## User input value
 chcArr = [0,0,0,0,0,0,0,0,0,0,0] ## Chance Item Array
+inven = dict()
+mainGoals = dict()
 ## Key: (Young Impling Jar), (Gourmet Impling Jar), (Eclectic Impling Jar), (Magpie Impling Jar), (Dragon Impling Jar), (Fiyr remains), (Urium Remains), (Ogre Coffin Keys), (Zombie Pirate Keys), (Rogue's Chest), (Grubby Chest)
 
 ## test = ChanceItem("Baby Impling Jar", 0, 1000, ["Basically", "Nothing"], ["Everything Else"])
@@ -88,6 +94,13 @@ chcArr = [0,0,0,0,0,0,0,0,0,0,0] ## Chance Item Array
 ## testTwo = InvenItem(0, "Bug", 3)
 ## print(test.compare(testTwo))
 ## test.printInvenItem()
+
+test = InvenItem("Bug", 2)
+testTwo = MainGoal("Doot", "Test Goal")
+inven[test.name] = test
+mainGoals[testTwo.name] = testTwo
+inven[test.name].printInvenItem()
+mainGoals[testTwo.name].printMainGoal()
 
 while len(progStateStack) > 0:
     print("You are here: " + progStateStack[len(progStateStack) - 1])
