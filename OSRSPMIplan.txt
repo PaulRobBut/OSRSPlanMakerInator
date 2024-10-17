@@ -1,3 +1,19 @@
+TODO:
+Initialize Chance Items
+Initialize Inventory
+	Create Inventory Item Object
+		Inventory Item Key (integer)
+		Inventory Item Name (string)
+		Inventory Item Amount (integer)
+	Create method for iventory items to stack
+
+Initialize Main Goals
+	Create Main Goal Object
+		Main Goal Key (integer)
+		Main Goal Name (String)
+		Main Goal Description (String)
+	Store Goals in a Map, so individual goals can be accessed at a time
+
 (Total GP is always displayed)
 (At all times, typing Exit goes to previous menus in the tree)
 Main Menu:
@@ -35,3 +51,11 @@ Edit Chance Items:
 				Enter Proper amount you have
 				
 		Delete Chance Item
+
+Plan File Template:
+Line 1 (Current GP): 				#
+Line 2 (Chance Items Array):		#:#:#:#:#...
+Line 3 (Flag to load Inventory):	FLAG Inventory
+Lines 4+ (Inventory Items):			S:#
+Line 5* (Flag to load Goals):		FLAG Goals
+Lines 6+ (Goals):					ID:S
