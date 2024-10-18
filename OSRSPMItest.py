@@ -1,7 +1,14 @@
 import OSRSPlanSaver
 
+## Variables
 progStateStack = ["Main Menu"]
 progNextStates = ["Chance Items", "Inventory", "Main Goals", "Edit"]
+userChoice = "" ## User input value
+chcArr = [0,0,0,0,0,0,0,0,0,0,0] ## Chance Item Array
+## Key: (Young Impling Jar), (Gourmet Impling Jar), (Eclectic Impling Jar), (Magpie Impling Jar), (Dragon Impling Jar), (Fiyr remains), (Urium Remains), (Ogre Coffin Keys), (Zombie Pirate Keys), (Rogue's Chest), (Grubby Chest)
+inven = dict()
+mainGoals = dict()
+curGP = 0
 
 ## Classes
 class ChanceItem():
@@ -93,26 +100,10 @@ class MainGoal():
             
 
 ## Functions
-def setState(menuChoice, validChoices):
-    validChoices.clear()
-    print(menuChoice)
-    if menuChoice == "Main Menu":
-        validChoices.append("Chance Items")
-        validChoices.append("Inventory")
-        validChoices.append("Main Goals")
-        validChoices.append("Edit")
-    elif menuChoice == "Edit":
-        validChoices.append("Edit Chance Items")
-        validChoices.append("Edit Inventory")
-        validChoices.append("Edit Main Goals")
-        validChoices.append("Load Plans")
-        validChoices.append("Save Plans")
-
 def displayInventory(inven): ## Displays Every item in your inventory
-    print("Printing Inventory: ")
+    print("\nPrinting Inventory: ")
     for i in inven.values():
         i.printInvenItem()
-    print()
 
 def displayGoal(goal, inven): ## Displays a single Goal and if you're ready to do it
     c = goal.canDoGoal(inven)
@@ -124,7 +115,38 @@ def displayGoal(goal, inven): ## Displays a single Goal and if you're ready to d
     print("Needed Items: ")
     for i in goal.neededItems:
         i.printInvenItem()
-    print()
+
+def setState(menuChoice, validChoices):
+    validChoices.clear()
+    if menuChoice == "Main Menu":
+        validChoices.append("Chance Items")
+        validChoices.append("Inventory")
+        validChoices.append("Main Goals")
+        validChoices.append("Edit")
+    elif menuChoice == "Chance Items":
+        print("Construction Zone")
+    elif menuChoice == "Inventory":
+        displayInventory(inven)
+    elif menuChoice == "Main Goals":
+        print("\nYour current goals are:")
+        for m in mainGoals.values():
+            displayGoal(m, inven)
+    elif menuChoice == "Edit":
+        validChoices.append("Edit Chance Items")
+        validChoices.append("Edit Inventory")
+        validChoices.append("Edit Main Goals")
+        validChoices.append("Load Plans")
+        validChoices.append("Save Plans")
+    elif menuChoice == "Edit Chance Items":
+        print("Construction Zone")
+    elif menuChoice == "Edit Inventory":
+        print("Construction Zone")
+    elif menuChoice == "Edit Main Goals":
+        print("Construction Zone")
+    elif menuChoice == "Load Plans":
+        print("Construction Zone")
+    elif menuChoice == "Save Plans":
+        print("Construction Zone")
 
 ## 0 = Main Menu
 ## 1 = Chance Items
@@ -137,12 +159,6 @@ def displayGoal(goal, inven): ## Displays a single Goal and if you're ready to d
 ## 8 = Load Plans
 ## 9 = Save Plans
 
-## Variables
-userChoice = "" ## User input value
-chcArr = [0,0,0,0,0,0,0,0,0,0,0] ## Chance Item Array
-inven = dict()
-mainGoals = dict()
-## Key: (Young Impling Jar), (Gourmet Impling Jar), (Eclectic Impling Jar), (Magpie Impling Jar), (Dragon Impling Jar), (Fiyr remains), (Urium Remains), (Ogre Coffin Keys), (Zombie Pirate Keys), (Rogue's Chest), (Grubby Chest)
 
 ## test = ChanceItem("Baby Impling Jar", 0, 1000, ["Basically", "Nothing"], ["Everything Else"])
 
@@ -158,12 +174,12 @@ mainGoals = dict()
 ## Test Area
 testItem = InvenItem("Bug", 2)
 testItemTwo = InvenItem("Bob", 2)
-testItemThree = InvenItem("Bob", 3)
-testItemFour = InvenItem("Ball", 1)
+# testItemThree = InvenItem("Bob", 3)
+# testItemFour = InvenItem("Ball", 1)
 testPlan = MainGoal("Doot", "Test Goal", [testItem])
-testPlanTwo = MainGoal("Poop", "Another Test Goal", [testItemThree])
-testPlanThree = MainGoal("Loop", "Yep, another Test", [testItem, testItemFour])
-testPlanFour = MainGoal("Hoop", "One Plus One Equals B?!?!?!", [testItemFour])
+# testPlanTwo = MainGoal("Poop", "Another Test Goal", [testItemThree])
+# testPlanThree = MainGoal("Loop", "Yep, another Test", [testItem, testItemFour])
+# testPlanFour = MainGoal("Hoop", "One Plus One Equals B?!?!?!", [testItemFour])
 inven[testItem.name] = testItem
 inven[testItemTwo.name] = testItemTwo
 mainGoals[testPlan.name] = testPlan
@@ -176,13 +192,13 @@ mainGoals[testPlan.name] = testPlan
 # print(testPlanTwo.canDoGoal(inven)) ## Yellow
 # print(testPlanThree.canDoGoal(inven)) ## Orange
 # print(testPlanFour.canDoGoal(inven)) ## Red
-displayInventory(inven)
-displayGoal(testPlan, inven)
+# displayInventory(inven)
+# displayGoal(testPlan, inven)
 
 ## Program Start
 while len(progStateStack) > 0:
-    print("You are here: " + progStateStack[len(progStateStack) - 1])
-    print("Submenus: ")
+    print("\nYou are here: " + progStateStack[len(progStateStack) - 1])
+    print("\nSubmenus: ")
     print("------")
     for i in progNextStates:
         print(i)
@@ -194,11 +210,8 @@ while len(progStateStack) > 0:
             print("Invalid Selection")
         else:
             progStateStack.append(userChoice)
-            print([progStateStack])
             setState(userChoice, progNextStates)
     else:
         progStateStack.pop()
         if (len(progStateStack) > 0):
-            print(progStateStack[len(progStateStack) - 1])
             setState(progStateStack[len(progStateStack) - 1], progNextStates)
-    print(userChoice)
