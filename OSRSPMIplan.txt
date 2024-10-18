@@ -13,6 +13,13 @@ Map-Key system:
 Inventory Viewer
 Chance Item Shop
 Main Goals Viewer
+	Add new variable to Main Goal Object: Needed items (array)
+	Add new variable to Main Goal Object: Doability (integer)
+		0 (red): You have none of the required items
+		1 (yellow): You have all the items, but not the right quantity
+		2 (Orange): You have a few of the required items (quantity not withstanding)
+		3 (green): You have all the required items in the desired quantity
+
 
 (Total GP is always displayed)
 (At all times, typing Exit goes to previous menus in the tree)
