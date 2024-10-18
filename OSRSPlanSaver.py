@@ -1,5 +1,4 @@
 import os
-print("doot")
 
 def savePlan(g):
     """
