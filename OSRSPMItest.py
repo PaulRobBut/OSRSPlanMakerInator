@@ -5,17 +5,30 @@ import OSRSPMIObjects
 progStateStack = ["Main Menu"]
 progNextStates = ["Chance Items", "Inventory", "Main Goals", "Edit"]
 userChoice = "" ## User input value
-chcArr = [0,0,0,0,0,0,0,0,0,0,0] ## Chance Item Array
+chcArr = [0,0,0,0,0,0,0,0,0,0,0] ## Chance Item Array (May need to be worked out)
+realChcArr = []
+## TODO: Fill out all chance Items with proper information (Default all items to good)
+realChcArr.append(OSRSPMIObjects.ChanceItem("Young Impling Jar", chcArr[0], 0, ["Poop"], ["Doo Doo"]))
+realChcArr.append(OSRSPMIObjects.ChanceItem("Gourmet Impling Jar", chcArr[1], 0, ["Poop"], ["Doo Doo"]))
+realChcArr.append(OSRSPMIObjects.ChanceItem("Eclectic Impling Jar", chcArr[2], 0, ["Poop"], ["Doo Doo"]))
+realChcArr.append(OSRSPMIObjects.ChanceItem("Magpie Impling Jar", chcArr[3], 0, ["Poop"], ["Doo Doo"]))
+realChcArr.append(OSRSPMIObjects.ChanceItem("Dragon Impling Jar", chcArr[4], 0, ["Poop"], ["Doo Doo"]))
+realChcArr.append(OSRSPMIObjects.ChanceItem("Fiyr remains", chcArr[5], 0, ["Poop"], ["Doo Doo"]))
+realChcArr.append(OSRSPMIObjects.ChanceItem("Urium remains", chcArr[6], 0, ["Poop"], ["Doo Doo"]))
+realChcArr.append(OSRSPMIObjects.ChanceItem("Ogre Coffin Key", chcArr[7], 0, ["Poop"], ["Doo Doo"]))
+realChcArr.append(OSRSPMIObjects.ChanceItem("Zombie Pirate Key", chcArr[8], 0, ["Poop"], ["Doo Doo"], True))
+realChcArr.append(OSRSPMIObjects.ChanceItem("Rogue's Chest", chcArr[9], 0, ["Poop"], ["Doo Doo"], True, "Lockpick"))
+realChcArr.append(OSRSPMIObjects.ChanceItem("Grubby Key", chcArr[10], 0, ["Poop"], ["Doo Doo"]))
 ## Key: (Young Impling Jar), (Gourmet Impling Jar), (Eclectic Impling Jar), (Magpie Impling Jar), (Dragon Impling Jar), (Fiyr remains), (Urium Remains), (Ogre Coffin Keys), (Zombie Pirate Keys), (Rogue's Chest), (Grubby Chest)
 
 inven = dict()
 mainGoals = dict()
 curGP = 0
 
-
 ## Functions
 def displayChanceItems(chc):
-    pass
+    for i in chc:
+        i.displayChanceItem()
 
 def displayInventory(inven): ## Displays Every item in your inventory
     print("\nPrinting Inventory: ")
@@ -41,10 +54,11 @@ def setState(menuChoice, validChoices):
         validChoices.append("Main Goals")
         validChoices.append("Edit")
     elif menuChoice == "Chance Items":
-        print("Construction Zone")
+        displayChanceItems(realChcArr)
     elif menuChoice == "Inventory":
         displayInventory(inven)
     elif menuChoice == "Main Goals":
+        ## TODO: Ability to Add / Clear Goals
         print("\nYour current goals are:")
         for m in mainGoals.values():
             displayGoal(m, inven)
@@ -55,14 +69,20 @@ def setState(menuChoice, validChoices):
         validChoices.append("Load Plans")
         validChoices.append("Save Plans")
     elif menuChoice == "Edit Chance Items":
-        print("Construction Zone")
+        validChoices.append("Adjust Chance Item Quantity")
+        validChoices.append("Set Good/Bad Drops")
     elif menuChoice == "Edit Inventory":
-        print("Construction Zone")
+        validChoices.append("Add Items")
+        validChoices.append("Remove Items")
+        validChoices.append("Adjust Items")
     elif menuChoice == "Edit Main Goals":
-        print("Construction Zone")
+        ## TODO: Create a seperate method for editing the text of the goals
+        print("I'll get back to you on this one")
     elif menuChoice == "Load Plans":
         print("Construction Zone")
     elif menuChoice == "Save Plans":
+        print("Construction Zone")
+    else:
         print("Construction Zone")
 
 ## test = ChanceItem("Baby Impling Jar", 0, 1000, ["Basically", "Nothing"], ["Everything Else"])

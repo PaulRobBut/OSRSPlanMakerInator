@@ -28,6 +28,10 @@ class ChanceItem():
         print(self.pkRisk)
         print(self.itemNeeded)
 
+    ## TODO: Realign print, aligning sections to columns via tabbing
+    def displayChanceItem(self):
+        print(self.name + ", (" + str(self.price) + " GP ea, Needed Item: " + self.itemNeeded + ", PK Risk: " + str(self.pkRisk) + "): " + str(self.amount))
+
 class InvenItem():
     """
     Represents an Inventory Item
