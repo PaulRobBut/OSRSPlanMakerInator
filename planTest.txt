@@ -1,1 +1,30 @@
-Testo!
+(Current GP): 0
+0:0:0:0:0:0:0:0:0:0:0
+Poop
+Doo Doo
+Poop
+Doo Doo
+Poop
+Doo Doo
+Poop
+Doo Doo
+Poop
+Doo Doo
+Poop
+Doo Doo
+Poop
+Doo Doo
+Poop
+Doo Doo
+Poop
+Doo Doo
+Poop
+Doo Doo
+Poop
+Doo Doo
+FLAG Inventory
+Bug:2
+Bob:2
+FLAG Goals
+Doot:Test Goal
+Bug=2

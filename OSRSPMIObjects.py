@@ -5,8 +5,8 @@ class ChanceItem():
     :param n: Item name (String)
     :param a: Amount of said item you have (Integer)
     :param p: Price of Chance Item (in GP) (Integer)
-    :param g: Good Items in drop table (InvenItem Array)
-    :param b: Junk items in drop table (InvenItem Array)
+    :param g: Good Items in drop table (String Array)
+    :param b: Junk items in drop table (String Array)
     :param pm: Does accessing the drop table require a PK risk? (Boolean)
     :param i: Additional item needed to access drop table (String)
     """

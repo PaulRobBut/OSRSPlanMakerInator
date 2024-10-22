@@ -125,6 +125,7 @@ def saveFile(pla, wor, ver):
         with open(fNam, "w") as g:
             for s in saveLines:
                 g.write(s)
+                ## Don't forget \n after each line!
 
 ## Loading
 def loadFile():
