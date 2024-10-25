@@ -1,4 +1,22 @@
 ## Classes
+class User(): ##GP, chcArray, realChcArray, Inventory, Goals
+    """
+    Represents the User's plan information
+    :param n: Player Name (String)
+    :param gp: Total GP (int)
+    :param c: Chance Item Array (int array)
+    :param rc: Real Chance Item Array (Chance Item Array)
+    :param i: Inventory (InvenItem Dictionary)
+    :param g: Main Goals (MainGoal Dictionary)
+    """
+    def __init__(self, n, gp = 0, c = [0,0,0,0,0,0,0,0,0,0,0], rc = [], i = dict(), g = dict()):
+        self.name = n
+        self.gpTotal = gp
+        self.chcArr = c
+        self.realChcArr = rc
+        self.inventory = i
+        self.mainGoals = g
+
 class ChanceItem():
     """
     Represents a Chance Item

@@ -1,4 +1,4 @@
-(Current GP): 0
+Test (Current GP): 0
 0:0:0:0:0:0:0:0:0:0:0
 Poop
 Doo Doo
@@ -23,8 +23,7 @@ Doo Doo
 Poop
 Doo Doo
 FLAG Inventory
-Bug:2
-Bob:2
+Hat:5
 FLAG Goals
-Doot:Test Goal
-Bug=2
+Rev up those fryers:For I'm ready for one
+Hat=5

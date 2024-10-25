@@ -68,3 +68,4 @@ Line 5 (Flag to load Inventory):			FLAG Inventory
 Lines 6+ (Inventory Items):					S:#
 Line 7* (Flag to load Goals):				FLAG Goals
 Lines 8+ (Goals):							ID:S
+Lines 9+ (Goal Needs):						S=#:S=#...
