@@ -1,4 +1,5 @@
 ## TODO: Ensure all of the project follows the rules of encapsulation
+## TODO: Consolidate File, Object, and Method names
 import OSRSPlanSaver
 import OSRSPMIObjects
 
@@ -15,17 +16,19 @@ user = OSRSPMIObjects.User("Test")
 def setChcArr(user):
     if len(user.realChcArr) > 0:
         user.realChcArr.clear()
-    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Young Impling Jar", user.chcArr[0], 0, ["Poop"], ["Doo Doo"]))
-    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Gourmet Impling Jar", user.chcArr[1], 0, ["Poop"], ["Doo Doo"]))
-    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Eclectic Impling Jar", user.chcArr[2], 0, ["Poop"], ["Doo Doo"]))
-    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Magpie Impling Jar", user.chcArr[3], 0, ["Poop"], ["Doo Doo"]))
-    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Dragon Impling Jar", user.chcArr[4], 0, ["Poop"], ["Doo Doo"]))
-    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Fiyr remains", user.chcArr[5], 0, ["Poop"], ["Doo Doo"]))
-    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Urium remains", user.chcArr[6], 0, ["Poop"], ["Doo Doo"]))
-    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Ogre Coffin Key", user.chcArr[7], 0, ["Poop"], ["Doo Doo"]))
-    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Zombie Pirate Key", user.chcArr[8], 0, ["Poop"], ["Doo Doo"], True))
-    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Rogue's Chest", user.chcArr[9], 0, ["Poop"], ["Doo Doo"], True, "Lockpick"))
-    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Grubby Key", user.chcArr[10], 0, ["Poop"], ["Doo Doo"]))
+    gArrs = OSRSPlanSaver.loadChcArrs()
+    bArr = []
+    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Young Impling Jar", user.chcArr[0], 0, gArrs[0], bArr))
+    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Gourmet Impling Jar", user.chcArr[1], 0, gArrs[1], bArr))
+    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Eclectic Impling Jar", user.chcArr[2], 0, gArrs[2], bArr))
+    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Magpie Impling Jar", user.chcArr[3], 0, gArrs[3], bArr))
+    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Dragon Impling Jar", user.chcArr[4], 0, gArrs[4], bArr))
+    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Fiyr remains", user.chcArr[5], 0, gArrs[5], bArr))
+    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Urium remains", user.chcArr[6], 0, gArrs[6], bArr))
+    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Ogre Coffin Key", user.chcArr[7], 0, gArrs[7], bArr))
+    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Zombie Pirate Key", user.chcArr[8], 0, gArrs[8], bArr, True))
+    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Rogue's Chest", user.chcArr[9], 0, gArrs[9], bArr, True, "Lockpick"))
+    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Grubby Key", user.chcArr[10], 0, gArrs[10], bArr))
 
 def displayChanceItems(chc):
     for i in chc:
@@ -47,7 +50,39 @@ def displayGoal(goal, inven): ## Displays a single Goal and if you're ready to d
     for i in goal.neededItems:
         i.printInvenItem()
 
+def setWantedItems(chc):
+    """
+    Loops through all of a Chance Item's drops, asking you if they should be set to Good Drops or Bad Drops
+    :param chc: Chance Item
+    """
+    retGood = []
+    retBad = []
+    ## TODO: consolidate for loops into a single for loop
+    ## Which would also mean taking the code form judgeWantItem and putting it here.
+    for c in chc.good_items:
+        judgeWantItem(retGood, retBad, c)
+    for c in chc.bad_items:
+        judgeWantItem(retGood, retBad, c)
+    chc.good_items = retGood
+    chc.bad_items = retBad
+    print("Finished sorting for " + chc.name + "!")
+
+def judgeWantItem(rGood, rBad, item):
+    uInput = ""
+    while uInput != "Good" and uInput != "Bad":
+        uInput = input(item + ", Good or Bad? ")
+        if uInput == "Good":
+            print(item + " is a GOOD drop!")
+            rGood.append(item)
+        elif uInput == "Bad":
+            print(item + " is a BAD drop!")
+            rBad.append(item)
+        else:
+            print("Invalid choice, type Good or Bad, case sensitive.")
+
 def setState(menuChoice, validChoices):
+    ## TODO: This method is a bit of a mess, find a way to truncate it
+    ## TODO: Make selections not case-sensitive
     global user
     validChoices.clear()
     if menuChoice == "Main Menu":
@@ -72,7 +107,7 @@ def setState(menuChoice, validChoices):
         validChoices.append("Save Plans")
     elif menuChoice == "Edit Chance Items":
         validChoices.append("Adjust Chance Item Quantity")
-        validChoices.append("Set Good/Bad Drops")
+        validChoices.append("Set Wanted Drops")
     elif menuChoice == "Edit Inventory":
         validChoices.append("Add Items")
         validChoices.append("Remove Items")
@@ -89,6 +124,20 @@ def setState(menuChoice, validChoices):
         setChcArr(user)
     elif menuChoice == "Save Plans":
         OSRSPlanSaver.savePlan(user)
+    elif menuChoice == "Set Wanted Drops":
+        chooseChc = -1
+        while chooseChc < 0 or chooseChc > 10:
+            try:
+                ## TODO: This one line is way too long, split it between several lines
+                chooseChc = int(input("Which Chance Item would you like to set the wanted drops to:\n0: Young Impling Jar\n1: Gourmet Impling Jar\n2: Eclectic Impling Jar\n3: Magpie Impling Jar\n4: Dragon Impling Jar\n5: Fiyr remains\n6: Urium Remains\n7: Ogre Coffin Keys\n8: Zombie Pirate Keys\n9: Rogue's Chest\n10: Grubby Chest\nChoose: "))
+            except:
+                print("Invalid, that is not an integer.")
+            if chooseChc < 0 or chooseChc > 10:
+                print("Invalid, choice is not between 0 and 10.")
+        setWantedItems(user.realChcArr[chooseChc])
+        progStateStack.pop()
+        if (len(progStateStack) > 0):
+            setState(progStateStack[len(progStateStack) - 1], progNextStates)
     else:
         print("Construction Zone")
 
@@ -102,6 +151,8 @@ user.mainGoals[testPlan.name] = testPlan
 
 ## Program Start
 setChcArr(user)
+uName = input("What is your name: ")
+if uName == "": uName = "Test"
 while len(progStateStack) > 0:
     print("\nYou are here: " + progStateStack[len(progStateStack) - 1])
     print("\nSubmenus: ")

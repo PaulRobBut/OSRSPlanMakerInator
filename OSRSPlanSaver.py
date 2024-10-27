@@ -95,9 +95,17 @@ def loadPlan(user):
                 print(rcInd)
                 if lineNum % 2 == 0:
                     print("Good: " + ll)
-                    user.realChcArr[rcInd].good_items = ll.split()
+                    user.realChcArr[rcInd].good_items = ll.split(":")
                 else:
                     print("Bad: " + ll)
-                    user.realChcArr[rcInd].bad_items = ll.split()
+                    user.realChcArr[rcInd].bad_items = ll.split(":")
         lineNum += 1
     print("Finished loading " + str(lineNum) + " lines!")
+
+def loadChcArrs():
+    dropStrArr = []
+    useFil = "chcDrops.txt"
+    with open(useFil, "r") as l:
+        for ll in l:
+            dropStrArr.append(ll[:-1].split(", "))
+    return dropStrArr

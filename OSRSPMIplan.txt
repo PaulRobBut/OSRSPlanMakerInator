@@ -59,6 +59,10 @@ Edit Chance Items:
 				
 		Delete Chance Item
 
+Chance Items:
+	(Young Impling Jar), (Gourmet Impling Jar), (Eclectic Impling Jar), (Magpie Impling Jar), (Dragon Impling Jar), (Fiyr remains), (Urium Remains), (Ogre Coffin Keys), (Zombie Pirate Keys), (Rogue's Chest), (Grubby Chest)
+
+
 Plan File Template:
 Line 1 (Current GP): 						#
 Line 2 (Chance Items Array):				#:#:#:#:#...
