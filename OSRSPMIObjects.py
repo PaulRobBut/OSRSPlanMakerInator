@@ -28,6 +28,7 @@ class ChanceItem():
     :param pm: Does accessing the drop table require a PK risk? (Boolean)
     :param i: Additional item needed to access drop table (String)
     """
+    ## TODO: general Profit field
     def __init__(self, n = "Commorb", a = 0, p = 1, g = [], b = [], pk = False, i = "None"):
         self.name = n
         self.amount = a

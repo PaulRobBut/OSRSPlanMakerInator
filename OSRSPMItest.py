@@ -1,5 +1,8 @@
 ## TODO: Ensure all of the project follows the rules of encapsulation
 ## TODO: Consolidate File, Object, and Method names
+## TODO: Complete docs and comments
+## TODO: Make it easier to add future Chance Items, such as enhanced crystal keys for example
+## Bonus tasks when a Goal has been completed
 import OSRSPlanSaver
 import OSRSPMIObjects
 
@@ -7,11 +10,11 @@ import OSRSPMIObjects
 progStateStack = ["Main Menu"]
 progNextStates = ["Chance Items", "Inventory", "Main Goals", "Edit"]
 userChoice = "" ## User input value
-## TODO: Fill out all chance Items with proper information (Default all items to good)
 ## Key: (Young Impling Jar), (Gourmet Impling Jar), (Eclectic Impling Jar), (Magpie Impling Jar), (Dragon Impling Jar), (Fiyr remains), (Urium Remains), (Ogre Coffin Keys), (Zombie Pirate Keys), (Rogue's Chest), (Grubby Chest)
 
 user = OSRSPMIObjects.User("Test")
 
+## TODO: Move Functions into its own file
 ## Functions
 def setChcArr(user):
     if len(user.realChcArr) > 0:
@@ -80,6 +83,30 @@ def judgeWantItem(rGood, rBad, item):
         else:
             print("Invalid choice, type Good or Bad, case sensitive.")
 
+def chooseInt(maxVal):
+    chooseChc = -1
+    try:
+        chooseChc = int(input("Choose (0 - " + str(maxVal) + "): "))
+    except:
+        print("Invalid, that is not an integer.")
+    if chooseChc < 0 or chooseChc > maxVal:
+        print("Invalid, choice is not between 0 and " + str(maxVal) + ".")
+    return chooseChc
+
+def viewChcItems(user):
+    uChc = "Yes"
+    while uChc == "Yes":
+        print("0: Young Impling Jar\n1: Gourmet Impling Jar\n2: Eclectic Impling Jar\n3: Magpie Impling Jar\n4: Dragon Impling Jar\n5: Fiyr remains\n6: Urium Remains\n7: Ogre Coffin Keys\n8: Zombie Pirate Keys\n9: Rogue's Chest\n10: Grubby Chest")
+        uChcInt = chooseInt(10)
+        print("Good Items")
+        print(user.realChcArr[uChcInt].good_items)
+        print("Bad Items")
+        print(user.realChcArr[uChcInt].bad_items)
+        uChc = input("Continue (Yes / No)? ")
+        if uChc == "Yes":
+            displayChanceItems(user.realChcArr)
+    print("Returning, type 'exit' to go to previous menu")
+
 def setState(menuChoice, validChoices):
     ## TODO: This method is a bit of a mess, find a way to truncate it
     ## TODO: Make selections not case-sensitive
@@ -91,7 +118,9 @@ def setState(menuChoice, validChoices):
         validChoices.append("Main Goals")
         validChoices.append("Edit")
     elif menuChoice == "Chance Items":
+        ## Leaves a bit too much text, can be consolidated
         displayChanceItems(user.realChcArr)
+        viewChcItems(user)
     elif menuChoice == "Inventory":
         displayInventory(user.inventory)
     elif menuChoice == "Main Goals":
@@ -127,13 +156,9 @@ def setState(menuChoice, validChoices):
     elif menuChoice == "Set Wanted Drops":
         chooseChc = -1
         while chooseChc < 0 or chooseChc > 10:
-            try:
-                ## TODO: This one line is way too long, split it between several lines
-                chooseChc = int(input("Which Chance Item would you like to set the wanted drops to:\n0: Young Impling Jar\n1: Gourmet Impling Jar\n2: Eclectic Impling Jar\n3: Magpie Impling Jar\n4: Dragon Impling Jar\n5: Fiyr remains\n6: Urium Remains\n7: Ogre Coffin Keys\n8: Zombie Pirate Keys\n9: Rogue's Chest\n10: Grubby Chest\nChoose: "))
-            except:
-                print("Invalid, that is not an integer.")
-            if chooseChc < 0 or chooseChc > 10:
-                print("Invalid, choice is not between 0 and 10.")
+            ## TODO: This one line is way too long, split it between several lines
+            print("Which Chance Item would you like to set the wanted drops to:\n0: Young Impling Jar\n1: Gourmet Impling Jar\n2: Eclectic Impling Jar\n3: Magpie Impling Jar\n4: Dragon Impling Jar\n5: Fiyr remains\n6: Urium Remains\n7: Ogre Coffin Keys\n8: Zombie Pirate Keys\n9: Rogue's Chest\n10: Grubby Chest")
+            chooseChc = chooseInt(10)
         setWantedItems(user.realChcArr[chooseChc])
         progStateStack.pop()
         if (len(progStateStack) > 0):
