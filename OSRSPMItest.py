@@ -60,12 +60,16 @@ def setState(menuChoice, validChoices):
         ##TODO: Function to edit a main goal
         print("To be worked on")
     elif menuChoice == "Load Plans":
-        user = OSRSPMIObjects.User("Frank", 0, [0,0,0,0,0,0,0,0,0,0,0], [], dict(), dict())
-        print(user.name)
-        print(len(user.inventory.values()))
-        OSRSPMIFunctions.setChcArr(user) ## TODO: One of these setsChcArrs will need to be removed
-        OSRSPlanSaver.loadPlan(user)
-        OSRSPMIFunctions.setChcArr(user)
+        savedFiles = OSRSPlanSaver.getFileUserNames()
+        print("Load one of these? " + str(savedFiles))
+        chsName = input("Enter Name: ")
+        if chsName in savedFiles:
+            user = OSRSPMIObjects.User(chsName, 0, [0,0,0,0,0,0,0,0,0,0,0], [], dict(), dict())
+            OSRSPMIFunctions.setChcArr(user) ## TODO: One of these setsChcArrs will need to be removed
+            OSRSPlanSaver.loadPlan(user)
+            OSRSPMIFunctions.setChcArr(user)
+        else:
+            print("Invalid Name")
     elif menuChoice == "Save Plans":
         OSRSPlanSaver.savePlan(user)
     elif menuChoice == "Set Wanted Drops":
@@ -93,6 +97,13 @@ def setState(menuChoice, validChoices):
 OSRSPMIFunctions.setChcArr(user)
 uName = input("What is your name: ")
 if uName == "": uName = "Test"
+user.name = uName
+if OSRSPlanSaver.hasFile(uName):
+    OSRSPlanSaver.loadPlan(user)
+    OSRSPMIFunctions.setChcArr(user)
+    print("A file with that name exists! It has been loaded!")
+else:
+    print("Creating new plan, remember to save your plan in the Edit menu!")
 while len(progStateStack) > 0:
     print("\nYou are here: " + progStateStack[len(progStateStack) - 1])
     print("\nSubmenus: ")

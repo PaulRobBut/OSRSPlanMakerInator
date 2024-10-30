@@ -31,7 +31,7 @@ def savePlan(user): ##GP, chcArray, realChcArray, Inventory, Goals
         for it in gl.neededItems:
             saveLines[-1] += (it.name + "=" + str(it.amount) + ":")
         saveLines[-1] = saveLines[-1][:-1] + "\n"
-    useFil = "planTest.txt"
+    useFil = "plan" + user.name + ".txt"
     with open(useFil, "w") as s:
         s.writelines(saveLines)
     print("Save Successful!")
@@ -41,7 +41,7 @@ def loadPlan(user):
     Loads Plan from file
     """
     loadedLines = []
-    useFil = "planTest.txt"
+    useFil = "plan" + user.name + ".txt"
     with open(useFil, "r") as l:
         for ll in l:
             loadedLines.append(ll)
@@ -101,6 +101,21 @@ def loadPlan(user):
                     user.realChcArr[rcInd].bad_items = ll.split(":")
         lineNum += 1
     print("Finished loading " + str(lineNum) + " lines!")
+
+def hasFile(userName):
+    savedPlans = getFileUserNames()
+    if userName in savedPlans:
+        return True
+    else:
+        return False
+    
+def getFileUserNames():
+    savedPlans = []
+    for x in os.listdir():
+        if x in os.listdir():
+            if x.startswith("plan") and x.endswith(".txt"):
+                savedPlans.append(x[4:len(x) - 4])
+    return savedPlans
 
 def loadChcArrs():
     dropStrArr = []
