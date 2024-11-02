@@ -3,32 +3,49 @@ import OSRSPlanSaver
 
 ## TODO: Reorganize these
 def setChcArr(user):
+    """
+    Sets User's Real Chance Item Array based on the simplified Chance Item Array
+    :param user: User object
+    """
     if len(user.realChcArr) > 0:
         user.realChcArr.clear()
     gArrs = OSRSPlanSaver.loadChcArrs()
     bArr = []
-    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Young Impling Jar", user.chcArr[0], 0, gArrs[0], bArr))
-    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Gourmet Impling Jar", user.chcArr[1], 0, gArrs[1], bArr))
-    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Eclectic Impling Jar", user.chcArr[2], 0, gArrs[2], bArr))
-    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Magpie Impling Jar", user.chcArr[3], 0, gArrs[3], bArr))
-    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Dragon Impling Jar", user.chcArr[4], 0, gArrs[4], bArr))
-    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Fiyr remains", user.chcArr[5], 0, gArrs[5], bArr))
-    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Urium remains", user.chcArr[6], 0, gArrs[6], bArr))
-    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Ogre Coffin Key", user.chcArr[7], 0, gArrs[7], bArr))
-    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Zombie Pirate Key", user.chcArr[8], 0, gArrs[8], bArr, True))
-    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Rogue's Chest", user.chcArr[9], 0, gArrs[9], bArr, True, "Lockpick"))
-    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Grubby Key", user.chcArr[10], 0, gArrs[10], bArr))
+    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Young Impling Jar", user.chcArr[0], 0, 0, gArrs[0], bArr))
+    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Gourmet Impling Jar", user.chcArr[1], 0, 0, gArrs[1], bArr))
+    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Eclectic Impling Jar", user.chcArr[2], 0, 0, gArrs[2], bArr))
+    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Magpie Impling Jar", user.chcArr[3], 0, 0, gArrs[3], bArr))
+    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Dragon Impling Jar", user.chcArr[4], 0, 0, gArrs[4], bArr))
+    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Fiyr remains", user.chcArr[5], 0, 0, gArrs[5], bArr))
+    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Urium remains", user.chcArr[6], 0, 0, gArrs[6], bArr))
+    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Ogre Coffin Key", user.chcArr[7], 0, 0, gArrs[7], bArr))
+    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Zombie Pirate Key", user.chcArr[8], 0, 0, gArrs[8], bArr, True))
+    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Rogue's Chest", user.chcArr[9], 0, 0, gArrs[9], bArr, True, "Lockpick"))
+    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Grubby Key", user.chcArr[10], 0, 0, gArrs[10], bArr))
 
 def displayChanceItems(chc):
+    """
+    Displays all User's Chance Items to console
+    :param chc: User's Real Chance Item Array
+    """
     for i in chc:
         i.displayChanceItem()
 
 def displayInventory(inven): ## Displays Every item in your inventory
+    """
+    Displays User Inventory to console
+    :param inven: User's Inventory
+    """
     print("\nPrinting Inventory: ")
     for i in inven.values():
         i.printInvenItem()
 
 def displayGoal(goal, inven): ## Displays a single Goal and if you're ready to do it
+    """
+    Displays a single Goal to the console, and if you have the items to complete it
+    :param goal: indiviual Main Goal to print
+    :param inven: User's Inventory
+    """
     c = goal.canDoGoal(inven)
     if (c == 0): c = "Red"
     elif (c == 1): c = "Orange"
@@ -48,6 +65,7 @@ def setWantedItems(chc):
     retBad = []
     ## TODO: consolidate for loops into a single for loop
     ## Which would also mean taking the code form judgeWantItem and putting it here.
+    ## TODO: set the good/bad arrays from Fiyr/Urium remains to the same list, as they're the same drop table
     for c in chc.good_items:
         judgeWantItem(retGood, retBad, c)
     for c in chc.bad_items:
@@ -57,6 +75,12 @@ def setWantedItems(chc):
     print("Finished sorting for " + chc.name + "!")
 
 def judgeWantItem(rGood, rBad, item):
+    """
+    Sets a Chance Item's good and bad drops
+    :param rGood: Chance Item's Good drops
+    :param rBad: Chance Item's Bad drops
+    :param item: Chance Item to judge the drops of
+    """
     uInput = ""
     while uInput != "Good" and uInput != "Bad":
         uInput = input(item + ", Good or Bad? ")
@@ -70,6 +94,11 @@ def judgeWantItem(rGood, rBad, item):
             print("Invalid choice, type Good or Bad, case sensitive.")
 
 def chooseInt(maxVal, minVal = 0):
+    """
+    Allows a user to choose an int value between two values
+    :param maxVal: Maximum value you can choose
+    :param minVal: Minimum value you can choose (default 0)
+    """
     chooseChc = -1
     while chooseChc < 0:
         try:
@@ -82,6 +111,10 @@ def chooseInt(maxVal, minVal = 0):
     return chooseChc
 
 def viewChcItems(user):
+    """
+    Semi-state for when a user is looking at Chance Items, keeping them here until they decide to leave
+    :param user: User Object
+    """
     uChc = "Yes"
     while uChc == "Yes":
         print("0: Young Impling Jar\n1: Gourmet Impling Jar\n2: Eclectic Impling Jar\n3: Magpie Impling Jar\n4: Dragon Impling Jar\n5: Fiyr remains\n6: Urium Remains\n7: Ogre Coffin Keys\n8: Zombie Pirate Keys\n9: Rogue's Chest\n10: Grubby Chest")
@@ -96,6 +129,10 @@ def viewChcItems(user):
     print("Returning, type 'exit' to go to previous menu")
 
 def createMainGoal(user):
+    """
+    Creates a Main Goal based on User input
+    :param user: User Object
+    """
     goalName = input("Name of Goal: ")
     goalDesc = input("Description of Goal: ")
     goalNeedIts = []
@@ -112,6 +149,10 @@ def createMainGoal(user):
     user.mainGoals[goalName] = OSRSPMIObjects.MainGoal(goalName, goalDesc, goalNeedIts)
 
 def cleRemGoal(user):
+    """
+    Clears or Removes a goal from a User's Goal list
+    :param user: User Object
+    """
     print("Enter the number to the given goal: ")
     print(list(user.mainGoals.keys())[0])
     for i in range(len(user.mainGoals.keys())):

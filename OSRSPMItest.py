@@ -1,6 +1,6 @@
 ## TODO: Ensure all of the project follows the rules of encapsulation
 ## TODO: Consolidate File, Object, and Method names
-## TODO: Complete docs and comments
+## TODO: Complete comments
 ## TODO: Make it easier to add future Chance Items, such as enhanced crystal keys for example
 ## Bonus tasks when a Goal has been completed
 import OSRSPlanSaver
@@ -16,6 +16,11 @@ userChoice = "" ## User input value
 user = OSRSPMIObjects.User("Test")
 
 def setState(menuChoice, validChoices):
+    """
+    Sets state of the program based on what the user chooses, and if they are able to
+    :param menuChoice: User's chosen next state
+    :param validChoices: Acceptable next states the user can choose
+    """
     ## TODO: This method is a bit of a mess, find a way to truncate it
     ## Idea: Make a state tree
     ## TODO: Make selections not case-sensitive
@@ -26,6 +31,7 @@ def setState(menuChoice, validChoices):
         validChoices.append("Inventory")
         validChoices.append("Main Goals")
         validChoices.append("Edit")
+        validChoices.append("Set GP")
     elif menuChoice == "Chance Items":
         ## Leaves a bit too much text, can be consolidated
         OSRSPMIFunctions.displayChanceItems(user.realChcArr)
@@ -39,6 +45,7 @@ def setState(menuChoice, validChoices):
             OSRSPMIFunctions.displayGoal(m, user.inventory)
         validChoices.append("Add Goal")
         validChoices.append("Clear/Remove Goal")
+        validChoices.append("Add/Remove Bonus Task")
     elif menuChoice == "Add Goal":
         OSRSPMIFunctions.createMainGoal(user)
     elif menuChoice == "Clear/Remove Goal":

@@ -17,22 +17,27 @@ class User(): ##GP, chcArray, realChcArray, Inventory, Goals
         self.inventory = i
         self.mainGoals = g
 
+## TODO: More fields
+## Clue drop percent: chances of dropping a clue
+## Profit: Average amount of GP gained/lost per item
 class ChanceItem():
     """
     Represents a Chance Item
     :param n: Item name (String)
     :param a: Amount of said item you have (Integer)
     :param p: Price of Chance Item (in GP) (Integer)
+    :param pro: Average profit of Chance Item (Integer)
     :param g: Good Items in drop table (String Array)
     :param b: Junk items in drop table (String Array)
     :param pm: Does accessing the drop table require a PK risk? (Boolean)
     :param i: Additional item needed to access drop table (String)
     """
     ## TODO: general Profit field
-    def __init__(self, n = "Commorb", a = 0, p = 1, g = [], b = [], pk = False, i = "None"):
+    def __init__(self, n = "Commorb", a = 0, p = 1, pro = 0, g = [], b = [], pk = False, i = "None",):
         self.name = n
         self.amount = a
         self.price = p
+        self.profit = pro
         self.good_items = g
         self.bad_items = b
         self.pkRisk = pk
@@ -42,6 +47,7 @@ class ChanceItem():
         print(self.name)
         print(self.amount)
         print(self.price)
+        print(self.profit)
         print(self.good_items)
         print(self.bad_items)
         print(self.pkRisk)
@@ -49,7 +55,7 @@ class ChanceItem():
 
     ## TODO: Realign print, aligning sections to columns via tabbing
     def displayChanceItem(self):
-        print(self.name + ", (" + str(self.price) + " GP ea, Needed Item: " + self.itemNeeded + ", PK Risk: " + str(self.pkRisk) + "): " + str(self.amount))
+        print(self.name + ", (" + str(self.price) + " GP ea, Profit: " + str(self.profit) + " GP ea, Needed Item: " + self.itemNeeded + ", PK Risk: " + str(self.pkRisk) + "): " + str(self.amount))
 
 class InvenItem():
     """

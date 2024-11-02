@@ -39,6 +39,7 @@ def savePlan(user): ##GP, chcArray, realChcArray, Inventory, Goals
 def loadPlan(user):
     """
     Loads Plan from file
+    :param user: User Object
     """
     loadedLines = []
     useFil = "plan" + user.name + ".txt"
@@ -103,6 +104,10 @@ def loadPlan(user):
     print("Finished loading " + str(lineNum) + " lines!")
 
 def hasFile(userName):
+    """
+    Checks if a File with that username exists
+    :param userName: User's entered name
+    """
     savedPlans = getFileUserNames()
     if userName in savedPlans:
         return True
@@ -110,6 +115,9 @@ def hasFile(userName):
         return False
     
 def getFileUserNames():
+    """
+    Grabs save file's usernames
+    """
     savedPlans = []
     for x in os.listdir():
         if x in os.listdir():
@@ -118,6 +126,9 @@ def getFileUserNames():
     return savedPlans
 
 def loadChcArrs():
+    """
+    Sets up Chance Item drop arrays based on what's in the chcDrops.txt file
+    """
     dropStrArr = []
     useFil = "chcDrops.txt"
     with open(useFil, "r") as l:
