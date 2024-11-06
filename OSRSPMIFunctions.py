@@ -11,6 +11,7 @@ def setChcArr(user):
         user.realChcArr.clear()
     gArrs = OSRSPlanSaver.loadChcArrs()
     bArr = []
+    ## TODO: Price and Profit fields
     user.realChcArr.append(OSRSPMIObjects.ChanceItem("Young Impling Jar", user.chcArr[0], 0, 0, gArrs[0], bArr))
     user.realChcArr.append(OSRSPMIObjects.ChanceItem("Gourmet Impling Jar", user.chcArr[1], 0, 0, gArrs[1], bArr))
     user.realChcArr.append(OSRSPMIObjects.ChanceItem("Eclectic Impling Jar", user.chcArr[2], 0, 0, gArrs[2], bArr))
@@ -169,3 +170,14 @@ def cleRemGoal(user):
         print("Goals have been unchanged")
     else:
         print("invalid, choice must be Clear, Remove or exit, case sensitive.")
+
+def addTask(user):
+    """
+    Lets a user add their own Bonus Task
+    :param user: User object
+    """
+    taskName = input("Task Name: ")
+    taskDesc = input("Task Description: ")
+    print("How many repetitions (Max: 1000, Min: 1): ")
+    taskMax = chooseInt(1000, 1)
+    user.bonusTasks.append(OSRSPMIObjects.BonusTask(taskName, taskDesc, taskMax))

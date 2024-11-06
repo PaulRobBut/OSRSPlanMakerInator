@@ -1,5 +1,5 @@
 import os
-from OSRSPMIObjects import InvenItem, MainGoal
+from OSRSPMIObjects import InvenItem, MainGoal, BonusTask
 
 def savePlan(user): ##GP, chcArray, realChcArray, Inventory, Goals
     """
@@ -7,6 +7,7 @@ def savePlan(user): ##GP, chcArray, realChcArray, Inventory, Goals
     :param user: Current User
     """
     saveLines = []
+    ## TODO: Give every object a saveX method, to separate this code to make it easier to read
     saveLines.append(user.name + " (Current GP): " + str(user.gpTotal) + "\n")
     saveLines.append("")
     for ch in user.chcArr:
@@ -31,6 +32,13 @@ def savePlan(user): ##GP, chcArray, realChcArray, Inventory, Goals
         for it in gl.neededItems:
             saveLines[-1] += (it.name + "=" + str(it.amount) + ":")
         saveLines[-1] = saveLines[-1][:-1] + "\n"
+    saveLines.append("FLAG Tasks\n")
+    if user.curTask == None:
+        saveLines.append("None\n")
+    else:
+        saveLines.append(user.curTask.name + ":" + user.curTask.desc + ":" + str(user.curTask.max_assign) + ":" + str(user.curTask.set_assign) + ":" + str(user.curTask.cur_assign) + "\n")
+    for bt in user.bonusTasks:
+        saveLines.append(bt.name + ":" + bt.desc + ":" + str(bt.max_assign) + "\n")
     useFil = "plan" + user.name + ".txt"
     with open(useFil, "w") as s:
         s.writelines(saveLines)
@@ -52,7 +60,7 @@ def loadPlan(user):
     lineBool = True
     addGoal = ""
     for ll in loadedLines:
-        ## Maybe all the numLines should be condensed to one onitial split?
+        ## Maybe all the numLines should be condensed to one initial split?
         ll = ll[:-1]
         if ll[:4] == "FLAG" and lineNum != 0:
             curFlag = ll[5:]
@@ -77,6 +85,18 @@ def loadPlan(user):
                     addGoal.neededItems.append(addGoalItem)
                 user.mainGoals[addGoal.name] = addGoal
                 lineBool = True
+        elif curFlag == "Tasks":
+            print(ll)
+            sixthLine = ll.split(':')
+            if lineBool == True:
+                if ll == "None":
+                    cTask = None
+                else:
+                    cTask = BonusTask(sixthLine[0], sixthLine[1], int(sixthLine[2]), int(sixthLine[3]), int(sixthLine[4]))
+                user.curTask = cTask
+                lineBool = False
+            else:
+                user.bonusTasks.append(BonusTask(sixthLine[0], sixthLine[1], int(sixthLine[2])))
         else:
             print()
             if lineNum == 0: 

@@ -73,3 +73,6 @@ Lines 6+ (Inventory Items):					S:#
 Line 7* (Flag to load Goals):				FLAG Goals
 Lines 8+ (Goals):							ID:S
 Lines 9+ (Goal Needs):						S=#:S=#...
+Line 10 (Line to load Bonus Tasks):			FLAG Tasks
+Line 11 (Current Tasks)						N:D:MA:SA:CA
+Lines 12+ (Bonus Task List)					N:D:MA

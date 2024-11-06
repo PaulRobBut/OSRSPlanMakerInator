@@ -9,7 +9,7 @@ import OSRSPMIFunctions
 
 ## Variables
 progStateStack = ["Main Menu"]
-progNextStates = ["Chance Items", "Inventory", "Main Goals", "Edit"]
+progNextStates = ["Chance Items", "Inventory", "Main Goals", "Edit", "Set GP"]
 userChoice = "" ## User input value
 ## Key: (Young Impling Jar), (Gourmet Impling Jar), (Eclectic Impling Jar), (Magpie Impling Jar), (Dragon Impling Jar), (Fiyr remains), (Urium Remains), (Ogre Coffin Keys), (Zombie Pirate Keys), (Rogue's Chest), (Grubby Chest)
 
@@ -45,11 +45,15 @@ def setState(menuChoice, validChoices):
             OSRSPMIFunctions.displayGoal(m, user.inventory)
         validChoices.append("Add Goal")
         validChoices.append("Clear/Remove Goal")
-        validChoices.append("Add/Remove Bonus Task")
+        validChoices.append("Add Bonus Task")
+        validChoices.append("Remove Bonus Task")
+        validChoices.append("Cancel Current Bonus Task")
     elif menuChoice == "Add Goal":
         OSRSPMIFunctions.createMainGoal(user)
     elif menuChoice == "Clear/Remove Goal":
         OSRSPMIFunctions.cleRemGoal(user)
+    elif menuChoice == "Add Bonus Task":
+        OSRSPMIFunctions.addTask(user)
     elif menuChoice == "Edit":
         validChoices.append("Edit Chance Items")
         validChoices.append("Edit Inventory")
@@ -71,7 +75,7 @@ def setState(menuChoice, validChoices):
         print("Load one of these? " + str(savedFiles))
         chsName = input("Enter Name: ")
         if chsName in savedFiles:
-            user = OSRSPMIObjects.User(chsName, 0, [0,0,0,0,0,0,0,0,0,0,0], [], dict(), dict())
+            user = OSRSPMIObjects.User(chsName)
             OSRSPMIFunctions.setChcArr(user) ## TODO: One of these setsChcArrs will need to be removed
             OSRSPlanSaver.loadPlan(user)
             OSRSPMIFunctions.setChcArr(user)

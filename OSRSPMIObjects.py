@@ -1,21 +1,24 @@
+import random
 ## Classes
 class User(): ##GP, chcArray, realChcArray, Inventory, Goals
     """
     Represents the User's plan information
     :param n: Player Name (String)
-    :param gp: Total GP (int)
-    :param c: Chance Item Array (int array)
+    :param gp: Total GP (Integer)
+    :param c: Chance Item Array (Integer array)
     :param rc: Real Chance Item Array (Chance Item Array)
     :param i: Inventory (InvenItem Dictionary)
     :param g: Main Goals (MainGoal Dictionary)
     """
-    def __init__(self, n, gp = 0, c = [0,0,0,0,0,0,0,0,0,0,0], rc = [], i = dict(), g = dict()):
+    def __init__(self, n, gp = 0, c = [0,0,0,0,0,0,0,0,0,0,0], rc = [], i = dict(), g = dict(), ct = None, bt = []):
         self.name = n
         self.gpTotal = gp
         self.chcArr = c
         self.realChcArr = rc
         self.inventory = i
         self.mainGoals = g
+        self.curTask = ct
+        self.bonusTasks = bt
 
 ## TODO: More fields
 ## Clue drop percent: chances of dropping a clue
@@ -113,3 +116,32 @@ class MainGoal():
             alo = True
         return 3
         ## TODO: List items you need       
+
+class BonusTask():
+    """
+    Represents a bonus task assigned on Goal Completion
+    :param n: Name of Bonus Task (String)
+    :param d: Description of Task (String)
+    :param ma: Maximum number of repetitions of the task that needs to be done (Integer)
+    :param sa: Set number of repetitions that need to be done (once assigned) (Integer)
+    :param ca: Current number of repetitions you still need to do (once assigned) (Integer)
+    """
+
+    def __init__(self, n, d, ma, sa = 0, ca = 0):
+        self.name = n
+        self.desc = d
+        self.max_assign = ma
+        self.set_assign = sa
+        self.cur_assign = ca
+
+    def assignTask(self):
+        self.set_assign = random.randint(1, self.max_assign)
+        print("You will have to do this " + str(self.set_assign) + " times!")
+
+    def incrementTask(self):
+        self.cur_assign += 1
+        if (self.cur_assign == self.set_assign):
+            print("Task Complete!")
+            return True
+        else:
+            return False
