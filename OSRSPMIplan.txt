@@ -62,6 +62,21 @@ Edit Chance Items:
 Chance Items:
 	(Young Impling Jar), (Gourmet Impling Jar), (Eclectic Impling Jar), (Magpie Impling Jar), (Dragon Impling Jar), (Fiyr remains), (Urium Remains), (Ogre Coffin Keys), (Zombie Pirate Keys), (Rogue's Chest), (Grubby Chest)
 
+Test: Complete a Bonus Task
+- Create a Goal (Needing a test item to complete)
+- Remove Goal
+- Create Goal Again
+- Add Bonus Test Task
+- Remove Bonus Test Task
+- Add Bonus Test Task Again
+- Add test item
+- Remove test item
+- Add test item again
+- Clear Goal (Which will assign bonus task)
+- Cancel Bonus Task
+- Repeat Steps 3, 4, 7 & 8
+- Increment Bonus Task until completion
+Complete!
 
 Plan File Template:
 Line 1 (Current GP): 						#
@@ -76,3 +91,12 @@ Lines 9+ (Goal Needs):						S=#:S=#...
 Line 10 (Line to load Bonus Tasks):			FLAG Tasks
 Line 11 (Current Tasks)						N:D:MA:SA:CA
 Lines 12+ (Bonus Task List)					N:D:MA
+
+Created new (less obnoxious) way of handiling the state tree, utilizing a map to hold next state arrays
+You can now add and remove items from your inventory
+Bonus Tasks are now assigned on Goal completion, but you cannot complete another goal until the task is cancelled or completed
+Added failsafe for when you try to remove a goal when you don't have any
+Bonus Tasks can now be removed from a user's bonus task list
+Current tasks now have an increment method
+Added a print method for Bonus Tasks, displaying name, description and needed repetitions
+You now have to select 'View Goals' from the Main Goals menu to see your current goals

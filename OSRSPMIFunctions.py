@@ -1,5 +1,6 @@
 import OSRSPMIObjects
 import OSRSPlanSaver
+import random
 
 ## TODO: Reorganize these
 def setChcArr(user):
@@ -12,17 +13,17 @@ def setChcArr(user):
     gArrs = OSRSPlanSaver.loadChcArrs()
     bArr = []
     ## TODO: Price and Profit fields
-    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Young Impling Jar", user.chcArr[0], 0, 0, gArrs[0], bArr))
-    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Gourmet Impling Jar", user.chcArr[1], 0, 0, gArrs[1], bArr))
-    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Eclectic Impling Jar", user.chcArr[2], 0, 0, gArrs[2], bArr))
-    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Magpie Impling Jar", user.chcArr[3], 0, 0, gArrs[3], bArr))
-    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Dragon Impling Jar", user.chcArr[4], 0, 0, gArrs[4], bArr))
-    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Fiyr remains", user.chcArr[5], 0, 0, gArrs[5], bArr))
-    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Urium remains", user.chcArr[6], 0, 0, gArrs[6], bArr))
-    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Ogre Coffin Key", user.chcArr[7], 0, 0, gArrs[7], bArr))
-    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Zombie Pirate Key", user.chcArr[8], 0, 0, gArrs[8], bArr, True))
-    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Rogue's Chest", user.chcArr[9], 0, 0, gArrs[9], bArr, True, "Lockpick"))
-    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Grubby Key", user.chcArr[10], 0, 0, gArrs[10], bArr))
+    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Young Impling Jar", user.chcArr[0], 3000, -1700, gArrs[0], bArr))
+    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Gourmet Impling Jar", user.chcArr[1], 5000, -3500, gArrs[1], bArr))
+    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Eclectic Impling Jar", user.chcArr[2], 6000, -4000, gArrs[2], bArr))
+    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Magpie Impling Jar", user.chcArr[3], 33000, -16000, gArrs[3], bArr))
+    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Dragon Impling Jar", user.chcArr[4], 530000, -365000, gArrs[4], bArr))
+    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Fiyr remains", user.chcArr[5], 0, 0, gArrs[5], bArr)) ## Find average profit
+    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Urium remains", user.chcArr[6], 0, 0, gArrs[6], bArr)) ## Find average profit
+    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Ogre Coffin Key", user.chcArr[7], 0, 0, gArrs[7], bArr)) ## Find average profit
+    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Zombie Pirate Key", user.chcArr[8], 0, 0, gArrs[8], bArr, True)) ## Find average profit
+    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Rogue's Chest", user.chcArr[9], 0, 0, gArrs[9], bArr, True, "Lockpick")) ## Find average profit
+    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Grubby Key", user.chcArr[10], 0, 0, gArrs[10], bArr)) ## Find average profit
 
 def displayChanceItems(chc):
     """
@@ -100,6 +101,7 @@ def chooseInt(maxVal, minVal = 0):
     :param maxVal: Maximum value you can choose
     :param minVal: Minimum value you can choose (default 0)
     """
+    ## TODO: Add an escape function in case a user wants to go back
     chooseChc = -1
     while chooseChc < 0:
         try:
@@ -129,6 +131,39 @@ def viewChcItems(user):
             displayChanceItems(user.realChcArr)
     print("Returning, type 'exit' to go to previous menu")
 
+def createInvenItem(user):
+    """
+    Creates an Inventory Item for the user with their input
+    """
+    invItName = input("Name of Item: ")
+    invItAmnt = chooseInt(2147483647)
+    ## TODO: If the item already exists in the user's inventory, add up their amounts.
+    user.inventory[invItName] = OSRSPMIObjects.InvenItem(invItName, invItAmnt)
+
+def removeInvenItem(user):
+    if len(user.inventory) > 0:
+        print(user.inventory.keys())
+        delInvIt = None
+        while delInvIt == None:
+            chsInvIt = input("Enter name of the item in your inventory you want to delete: ")
+            if chsInvIt in user.inventory.keys():
+                delInvIt = user.inventory[chsInvIt]
+            else:
+                print("Invalid Selection")
+                print(user.inventory.keys())
+        ruSure = "norp"
+        while ruSure != "yes" and ruSure != "no":
+            ruSure = input("Really remove inventory item? (yes / no) ")
+            if ruSure == "yes":
+                user.inventory.pop(delInvIt.name)
+                print("Task Removed")
+            elif ruSure == "no":
+                print("Task Not Removed")
+            else:
+                print("Invalid Choice")
+    else:
+        print("You don't have anything in your inventory")
+
 def createMainGoal(user):
     """
     Creates a Main Goal based on User input
@@ -149,27 +184,46 @@ def createMainGoal(user):
             print("Invalid, Type Yes or No, case sensitive")
     user.mainGoals[goalName] = OSRSPMIObjects.MainGoal(goalName, goalDesc, goalNeedIts)
 
+def viewGoals(user):
+    for g in user.mainGoals.values():
+        displayGoal(g, user.inventory)
+
 def cleRemGoal(user):
     """
     Clears or Removes a goal from a User's Goal list
     :param user: User Object
     """
-    print("Enter the number to the given goal: ")
-    print(list(user.mainGoals.keys())[0])
-    for i in range(len(user.mainGoals.keys())):
-        print(str(i) + ": " + str(list(user.mainGoals.keys())[i]) + ": " + str(list(user.mainGoals.values())[i].description))
-    chsGoal = chooseInt(len(user.mainGoals.keys()) - 1)
-    cleRem = input("Clear goal, Remove goal or exit (Case Sensitive)? ")
-    if cleRem == "Clear":
-        print("Goal Removed, bonus task feature to be added")
-        user.mainGoals.pop(list(user.mainGoals.keys())[chsGoal])
-    elif cleRem == "Remove":
-        print("Goal Removed")
-        user.mainGoals.pop(list(user.mainGoals.keys())[chsGoal])
-    elif cleRem == "exit":
-        print("Goals have been unchanged")
+    if len(user.mainGoals.keys()) > 0:
+        if user.curTask == None:
+            ## TODO: Change the number based removal to a name based one, don't know why I did this in the first place.
+            ## This entire section needs to be redone
+            print("Enter the number to the given goal: ")
+            print(list(user.mainGoals.keys())[0])
+            for i in range(len(user.mainGoals.keys())):
+                print(str(i) + ": " + str(list(user.mainGoals.keys())[i]) + ": " + str(list(user.mainGoals.values())[i].description))
+            chsGoal = chooseInt(len(user.mainGoals.keys()) - 1)
+            ## Unclear that you can only enter Clear, Remove or exit, and it's tedious that you have to redo the entire process because of that mistake
+            cleRem = input("Clear goal, Remove goal or exit (Case Sensitive)? ")
+            if cleRem == "Clear":
+                print("Goal Clear!")
+                user.mainGoals.pop(list(user.mainGoals.keys())[chsGoal])
+                if (len(user.bonusTasks) > 0):
+                    user.curTask = user.bonusTasks[random.randint(0, len(user.bonusTasks) - 1)]
+                    user.curTask.assignTask()
+                    print("Task Assign: " + user.curTask.name)
+                    print("Description: " + user.curTask.desc)
+                    print(str(user.curTask.set_assign) + " times.")
+            elif cleRem == "Remove":
+                print("Goal Removed")
+                user.mainGoals.pop(list(user.mainGoals.keys())[chsGoal])
+            elif cleRem == "exit":
+                print("Goals have been unchanged")
+            else:
+                print("invalid, choice must be Clear, Remove or exit, case sensitive.")
+        else:
+            print("You have a Bonus Task you need to finish")
     else:
-        print("invalid, choice must be Clear, Remove or exit, case sensitive.")
+        print("You don't have any Goals to delete")
 
 def addTask(user):
     """
@@ -181,3 +235,37 @@ def addTask(user):
     print("How many repetitions (Max: 1000, Min: 1): ")
     taskMax = chooseInt(1000, 1)
     user.bonusTasks.append(OSRSPMIObjects.BonusTask(taskName, taskDesc, taskMax))
+
+def removeTask(user):
+    if (len(user.bonusTasks) > 0):
+        print("Select the number of the task you want to remove")
+        for i in range(len(user.bonusTasks)):
+            print(str(i) + ": " + user.bonusTasks[i].name)
+        chsTask = chooseInt(len(user.bonusTasks) - 1)
+        ruSure = "norp"
+        while ruSure != "yes" and ruSure != "no":
+            ruSure = input("Really delete task? (yes / no) ")
+            if ruSure == "yes":
+                user.bonusTasks.remove(user.bonusTasks[chsTask])
+                print("Task Removed")
+            elif ruSure == "no":
+                print("Task Not Removed")
+            else:
+                print("Invalid Choice")
+    else:
+        print("You don't have any Bonus Tasks")
+
+def incTask(user):
+    if user.curTask != None:
+        doingTask = "Yes"
+        while doingTask == "Yes":
+            doingTask = input("Press Enter to increment task, type 'exit' (case sensitive) to stop")
+            if doingTask != "exit":
+                if user.curTask.incrementTask() == True:
+                    user.curTask = None
+                else:
+                    user.curTask.printCurTask()
+                    doingTask = "Yes"
+        print("Returning, type 'exit' to go back")
+    else:
+        print("You don't have a current Bonus Task assigned")

@@ -136,7 +136,7 @@ class BonusTask():
 
     def assignTask(self):
         self.set_assign = random.randint(1, self.max_assign)
-        print("You will have to do this " + str(self.set_assign) + " times!")
+        ##print("You will have to do this " + str(self.set_assign) + " times!")
 
     def incrementTask(self):
         self.cur_assign += 1
@@ -145,3 +145,8 @@ class BonusTask():
             return True
         else:
             return False
+        
+    def printCurTask(self):
+        print(self.name)
+        print(self.desc)
+        print(str(self.cur_assign) + "/" + str(self.set_assign) + " completed")

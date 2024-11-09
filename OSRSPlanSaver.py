@@ -1,3 +1,4 @@
+## TODO: ensure saving and loading are uncheesable with the whole FLAG thing
 import os
 from OSRSPMIObjects import InvenItem, MainGoal, BonusTask
 
@@ -155,3 +156,16 @@ def loadChcArrs():
         for ll in l:
             dropStrArr.append(ll[:-1].split(", "))
     return dropStrArr
+
+def loadStateMap():
+    """
+    Loads State Map from what's on the stateMap.txt file
+    """
+    retMap = dict()
+    useFil = "stateMap.txt"
+    with open(useFil, "r") as l:
+        for ll in l:
+            if ll.endswith("\n"):
+                ll = ll[:-1]
+            retMap[ll.split(":")[0]] = ll.split(":")[1].split(",")
+    return retMap

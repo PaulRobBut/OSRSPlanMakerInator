@@ -2,6 +2,7 @@
 ## TODO: Consolidate File, Object, and Method names
 ## TODO: Complete comments
 ## TODO: Make it easier to add future Chance Items, such as enhanced crystal keys for example
+## TODO: Yes/No Prompts need inconsistent capitalization
 ## Bonus tasks when a Goal has been completed
 import OSRSPlanSaver
 import OSRSPMIObjects
@@ -9,13 +10,14 @@ import OSRSPMIFunctions
 
 ## Variables
 progStateStack = ["Main Menu"]
-progNextStates = ["Chance Items", "Inventory", "Main Goals", "Edit", "Set GP"]
+stateMap = OSRSPlanSaver.loadStateMap()
+progNextStates = stateMap[progStateStack[0]]
 userChoice = "" ## User input value
 ## Key: (Young Impling Jar), (Gourmet Impling Jar), (Eclectic Impling Jar), (Magpie Impling Jar), (Dragon Impling Jar), (Fiyr remains), (Urium Remains), (Ogre Coffin Keys), (Zombie Pirate Keys), (Rogue's Chest), (Grubby Chest)
 
 user = OSRSPMIObjects.User("Test")
 
-def setState(menuChoice, validChoices):
+def setState(menuChoice):
     """
     Sets state of the program based on what the user chooses, and if they are able to
     :param menuChoice: User's chosen next state
@@ -25,48 +27,39 @@ def setState(menuChoice, validChoices):
     ## Idea: Make a state tree
     ## TODO: Make selections not case-sensitive
     global user
-    validChoices.clear()
-    if menuChoice == "Main Menu":
-        validChoices.append("Chance Items")
-        validChoices.append("Inventory")
-        validChoices.append("Main Goals")
-        validChoices.append("Edit")
-        validChoices.append("Set GP")
-    elif menuChoice == "Chance Items":
+    ## Main Menu
+    if menuChoice == "Chance Items":
         ## Leaves a bit too much text, can be consolidated
         OSRSPMIFunctions.displayChanceItems(user.realChcArr)
         OSRSPMIFunctions.viewChcItems(user)
     elif menuChoice == "Inventory":
         OSRSPMIFunctions.displayInventory(user.inventory)
-    elif menuChoice == "Main Goals":
-        ## TODO: Ability to Add / Clear Goals
-        print("\nYour current goals are:")
-        for m in user.mainGoals.values():
-            OSRSPMIFunctions.displayGoal(m, user.inventory)
-        validChoices.append("Add Goal")
-        validChoices.append("Clear/Remove Goal")
-        validChoices.append("Add Bonus Task")
-        validChoices.append("Remove Bonus Task")
-        validChoices.append("Cancel Current Bonus Task")
+    ## Main Goals
     elif menuChoice == "Add Goal":
         OSRSPMIFunctions.createMainGoal(user)
+    elif menuChoice == "View Goals":
+        OSRSPMIFunctions.viewGoals(user)
     elif menuChoice == "Clear/Remove Goal":
         OSRSPMIFunctions.cleRemGoal(user)
     elif menuChoice == "Add Bonus Task":
         OSRSPMIFunctions.addTask(user)
-    elif menuChoice == "Edit":
-        validChoices.append("Edit Chance Items")
-        validChoices.append("Edit Inventory")
-        validChoices.append("Edit Main Goals")
-        validChoices.append("Load Plans")
-        validChoices.append("Save Plans")
-    elif menuChoice == "Edit Chance Items":
-        validChoices.append("Adjust Chance Item Quantity")
-        validChoices.append("Set Wanted Drops")
-    elif menuChoice == "Edit Inventory":
-        validChoices.append("Add Items")
-        validChoices.append("Remove Items")
-        validChoices.append("Adjust Items")
+    elif menuChoice == "Remove Bonus Task":
+        OSRSPMIFunctions.removeTask(user)
+    elif menuChoice == "Increment Bonus Task":
+        OSRSPMIFunctions.incTask(user)
+    elif menuChoice == "Cancel Current Bonus Task":
+        ## TODO: A similar bit of code is in the remove task function, may need to be its own function
+        ruSure = "norp"
+        while ruSure != "yes" and ruSure != "no":
+            ruSure = input("Are you sure? (yes / no) ")
+            if ruSure == "yes":
+                user.curTask = None
+                print("Task Cancelled")
+            elif ruSure == "no":
+                print("Task Maintained")
+            else:
+                print("Invalid Choice")
+    ## Edit
     elif menuChoice == "Edit Main Goals":
         ##TODO: Function to edit a main goal
         print("To be worked on")
@@ -83,6 +76,7 @@ def setState(menuChoice, validChoices):
             print("Invalid Name")
     elif menuChoice == "Save Plans":
         OSRSPlanSaver.savePlan(user)
+    ## Edit Chance Items
     elif menuChoice == "Set Wanted Drops":
         chooseChc = -1
         while chooseChc < 0 or chooseChc > 10:
@@ -93,6 +87,12 @@ def setState(menuChoice, validChoices):
         progStateStack.pop()
         if (len(progStateStack) > 0):
             setState(progStateStack[len(progStateStack) - 1], progNextStates)
+    ## Edit Inventory
+    elif menuChoice == "Add Item":
+        OSRSPMIFunctions.createInvenItem(user)
+    elif menuChoice == "Remove Item":
+        OSRSPMIFunctions.removeInvenItem(user)
+    ## End
     else:
         print("Construction Zone")
 
@@ -129,8 +129,13 @@ while len(progStateStack) > 0:
             print("Invalid Selection")
         else:
             progStateStack.append(userChoice)
-            setState(userChoice, progNextStates)
+            if userChoice in stateMap.keys():
+                progNextStates = stateMap[userChoice]
+            else:
+                progNextStates = []
+            setState(userChoice)
     else:
         progStateStack.pop()
         if (len(progStateStack) > 0):
-            setState(progStateStack[len(progStateStack) - 1], progNextStates)
+            setState(progStateStack[len(progStateStack) - 1])
+            progNextStates = stateMap[progStateStack[-1]]

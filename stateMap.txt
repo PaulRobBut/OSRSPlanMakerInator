@@ -1,0 +1,5 @@
+Main Menu:Chance Items,Inventory,Main Goals,Edit,Set GP
+Main Goals:Add Goal,View Goals,Clear/Remove Goal,Add Bonus Task,Remove Bonus Task,Increment Bonus Task,Cancel Current Bonus Task
+Edit:Edit Chance Items,Edit Inventory,Edit Main Goals,Load Plans,Save Plans
+Edit Chance Items:Adjust Chance Item Quantity,Set Wanted Drops
+Edit Inventory:Add Item,Remove Item,Adjust Item
