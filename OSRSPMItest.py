@@ -3,6 +3,7 @@
 ## TODO: Complete comments
 ## TODO: Make it easier to add future Chance Items, such as enhanced crystal keys for example
 ## TODO: Yes/No Prompts need inconsistent capitalization
+## TODO: Options in the Chance Item section to view and set Wanted Clue Drops
 ## Bonus tasks when a Goal has been completed
 import OSRSPlanSaver
 import OSRSPMIObjects
@@ -87,6 +88,8 @@ def setState(menuChoice):
         progStateStack.pop()
         if (len(progStateStack) > 0):
             setState(progStateStack[len(progStateStack) - 1], progNextStates)
+    elif menuChoice == "Adjust Chance Item Quantity":
+        pass
     ## Edit Inventory
     elif menuChoice == "Add Item":
         OSRSPMIFunctions.createInvenItem(user)

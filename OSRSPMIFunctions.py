@@ -3,6 +3,66 @@ import OSRSPlanSaver
 import random
 
 ## TODO: Reorganize these
+## General Functions
+def chooseInt(maxVal, minVal = 0):
+    """
+    Allows a user to choose an int value between two values
+    :param maxVal: Maximum value you can choose
+    :param minVal: Minimum value you can choose (default 0)
+    """
+    ## TODO: Add an escape function in case a user wants to go back
+    chooseChc = -1
+    while chooseChc < 0:
+        try:
+            chooseChc = int(input("Choose (" + str(minVal) + " - " + str(maxVal) + "): "))
+        except:
+            print("Invalid, that is not an integer.")
+        if chooseChc < minVal or chooseChc > maxVal:
+            print("Invalid, choice is not between 0 and " + str(maxVal) + ".")
+            chooseChc = -1
+    return chooseChc
+
+def selectByNum(selArr):
+    """
+    Allows a user to select an option from a list by entering a number
+    :param selArr: Array to be selected from
+    """
+    for i in range(len(selArr)):
+        if isinstance(selArr[i], OSRSPMIObjects.BonusTask):
+            print(str(i) + ": " + str(selArr[i].name))
+        else:
+            print(str(i) + ": " + str(selArr[i]))
+    chsGoal = chooseInt(len(selArr) - 1)
+    return selArr[chsGoal]
+
+def selectByName(selMap):
+    """
+    Allows a user to select an item from a map that uses a string-based key
+    :param selMap: Map to be selected from
+    """
+    for k in selMap.keys():
+        ## TODO: This may need to be tightened up
+        if isinstance(selMap[k], OSRSPMIObjects.MainGoal):
+            print(str(k) + ": " + str(selMap[k].description))
+        elif isinstance(selMap[k], OSRSPMIObjects.InvenItem):
+            print(str(k) + ": " + str(selMap[k].amount))
+        else: 
+            print(str(k) + ": " + str(selMap[k]))
+    chsKey = ""
+    while chsKey not in selMap.keys() or chsKey != "exit":
+        chsKey = input("Choose a key: ")
+        if chsKey == "exit":
+            break
+        elif chsKey not in selMap.keys():
+            print("Invalid choice, please choose from these: ")
+            print(selMap.keys())
+        else:
+            return selMap[chsKey]
+        
+def removeFrom(keyVal, collField):
+    pass
+
+## Chance Item Functions
 def setChcArr(user):
     """
     Sets User's Real Chance Item Array based on the simplified Chance Item Array
@@ -12,18 +72,17 @@ def setChcArr(user):
         user.realChcArr.clear()
     gArrs = OSRSPlanSaver.loadChcArrs()
     bArr = []
-    ## TODO: Price and Profit fields
     user.realChcArr.append(OSRSPMIObjects.ChanceItem("Young Impling Jar", user.chcArr[0], 3000, -1700, gArrs[0], bArr))
     user.realChcArr.append(OSRSPMIObjects.ChanceItem("Gourmet Impling Jar", user.chcArr[1], 5000, -3500, gArrs[1], bArr))
     user.realChcArr.append(OSRSPMIObjects.ChanceItem("Eclectic Impling Jar", user.chcArr[2], 6000, -4000, gArrs[2], bArr))
     user.realChcArr.append(OSRSPMIObjects.ChanceItem("Magpie Impling Jar", user.chcArr[3], 33000, -16000, gArrs[3], bArr))
     user.realChcArr.append(OSRSPMIObjects.ChanceItem("Dragon Impling Jar", user.chcArr[4], 530000, -365000, gArrs[4], bArr))
-    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Fiyr remains", user.chcArr[5], 0, 0, gArrs[5], bArr)) ## Find average profit
-    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Urium remains", user.chcArr[6], 0, 0, gArrs[6], bArr)) ## Find average profit
-    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Ogre Coffin Key", user.chcArr[7], 0, 0, gArrs[7], bArr)) ## Find average profit
-    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Zombie Pirate Key", user.chcArr[8], 0, 0, gArrs[8], bArr, True)) ## Find average profit
-    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Rogue's Chest", user.chcArr[9], 0, 0, gArrs[9], bArr, True, "Lockpick")) ## Find average profit
-    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Grubby Key", user.chcArr[10], 0, 0, gArrs[10], bArr)) ## Find average profit
+    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Fiyr remains", user.chcArr[5], 6000, 1800, gArrs[5], bArr))
+    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Urium remains", user.chcArr[6], 6000, 5000, gArrs[6], bArr))
+    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Ogre Coffin Key", user.chcArr[7], 3000, 1100, gArrs[7], bArr))
+    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Zombie Pirate Key", user.chcArr[8], 18000, 4000, gArrs[8], bArr, True))
+    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Rogue's Chest", user.chcArr[9], 0, 3600, gArrs[9], bArr, True, "Lockpick"))
+    user.realChcArr.append(OSRSPMIObjects.ChanceItem("Grubby Key", user.chcArr[10], 44000, 8000, gArrs[10], bArr))
 
 def displayChanceItems(chc):
     """
@@ -32,31 +91,6 @@ def displayChanceItems(chc):
     """
     for i in chc:
         i.displayChanceItem()
-
-def displayInventory(inven): ## Displays Every item in your inventory
-    """
-    Displays User Inventory to console
-    :param inven: User's Inventory
-    """
-    print("\nPrinting Inventory: ")
-    for i in inven.values():
-        i.printInvenItem()
-
-def displayGoal(goal, inven): ## Displays a single Goal and if you're ready to do it
-    """
-    Displays a single Goal to the console, and if you have the items to complete it
-    :param goal: indiviual Main Goal to print
-    :param inven: User's Inventory
-    """
-    c = goal.canDoGoal(inven)
-    if (c == 0): c = "Red"
-    elif (c == 1): c = "Orange"
-    elif (c == 2): c = "Yellow"
-    else: c = "Green"
-    print(goal.name + ": State: " + c + ", Description: " + goal.description)
-    print("Needed Items: ")
-    for i in goal.neededItems:
-        i.printInvenItem()
 
 def setWantedItems(chc):
     """
@@ -95,24 +129,6 @@ def judgeWantItem(rGood, rBad, item):
         else:
             print("Invalid choice, type Good or Bad, case sensitive.")
 
-def chooseInt(maxVal, minVal = 0):
-    """
-    Allows a user to choose an int value between two values
-    :param maxVal: Maximum value you can choose
-    :param minVal: Minimum value you can choose (default 0)
-    """
-    ## TODO: Add an escape function in case a user wants to go back
-    chooseChc = -1
-    while chooseChc < 0:
-        try:
-            chooseChc = int(input("Choose (" + str(minVal) + " - " + str(maxVal) + "): "))
-        except:
-            print("Invalid, that is not an integer.")
-        if chooseChc < minVal or chooseChc > maxVal:
-            print("Invalid, choice is not between 0 and " + str(maxVal) + ".")
-            chooseChc = -1
-    return chooseChc
-
 def viewChcItems(user):
     """
     Semi-state for when a user is looking at Chance Items, keeping them here until they decide to leave
@@ -131,6 +147,16 @@ def viewChcItems(user):
             displayChanceItems(user.realChcArr)
     print("Returning, type 'exit' to go to previous menu")
 
+## Inventory Functions
+def displayInventory(inven): ## Displays Every item in your inventory
+    """
+    Displays User Inventory to console
+    :param inven: User's Inventory
+    """
+    print("\nPrinting Inventory: ")
+    for i in inven.values():
+        i.printInvenItem()
+
 def createInvenItem(user):
     """
     Creates an Inventory Item for the user with their input
@@ -143,26 +169,37 @@ def createInvenItem(user):
 def removeInvenItem(user):
     if len(user.inventory) > 0:
         print(user.inventory.keys())
-        delInvIt = None
-        while delInvIt == None:
-            chsInvIt = input("Enter name of the item in your inventory you want to delete: ")
-            if chsInvIt in user.inventory.keys():
-                delInvIt = user.inventory[chsInvIt]
-            else:
-                print("Invalid Selection")
-                print(user.inventory.keys())
+        delInvIt = selectByName(user.inventory)
+        ## Escape code for 'exit' goes here
         ruSure = "norp"
         while ruSure != "yes" and ruSure != "no":
             ruSure = input("Really remove inventory item? (yes / no) ")
             if ruSure == "yes":
                 user.inventory.pop(delInvIt.name)
-                print("Task Removed")
+                print("Item Removed")
             elif ruSure == "no":
-                print("Task Not Removed")
+                print("Item Not Removed")
             else:
                 print("Invalid Choice")
     else:
         print("You don't have anything in your inventory")
+
+## Main Goal Functions
+def displayGoal(goal, inven): ## Displays a single Goal and if you're ready to do it
+    """
+    Displays a single Goal to the console, and if you have the items to complete it
+    :param goal: indiviual Main Goal to print
+    :param inven: User's Inventory
+    """
+    c = goal.canDoGoal(inven)
+    if (c == 0): c = "Red"
+    elif (c == 1): c = "Orange"
+    elif (c == 2): c = "Yellow"
+    else: c = "Green"
+    print(goal.name + ": State: " + c + ", Description: " + goal.description)
+    print("Needed Items: ")
+    for i in goal.neededItems:
+        i.printInvenItem()
 
 def createMainGoal(user):
     """
@@ -195,18 +232,13 @@ def cleRemGoal(user):
     """
     if len(user.mainGoals.keys()) > 0:
         if user.curTask == None:
-            ## TODO: Change the number based removal to a name based one, don't know why I did this in the first place.
-            ## This entire section needs to be redone
-            print("Enter the number to the given goal: ")
-            print(list(user.mainGoals.keys())[0])
-            for i in range(len(user.mainGoals.keys())):
-                print(str(i) + ": " + str(list(user.mainGoals.keys())[i]) + ": " + str(list(user.mainGoals.values())[i].description))
-            chsGoal = chooseInt(len(user.mainGoals.keys()) - 1)
+            chsGoal = selectByName(user.mainGoals)
+            ## Escape code for 'exit' goes here
             ## Unclear that you can only enter Clear, Remove or exit, and it's tedious that you have to redo the entire process because of that mistake
-            cleRem = input("Clear goal, Remove goal or exit (Case Sensitive)? ")
+            cleRem = input("Clear, Remove or exit (Case Sensitive)? ")
             if cleRem == "Clear":
                 print("Goal Clear!")
-                user.mainGoals.pop(list(user.mainGoals.keys())[chsGoal])
+                user.mainGoals.pop(chsGoal.name)
                 if (len(user.bonusTasks) > 0):
                     user.curTask = user.bonusTasks[random.randint(0, len(user.bonusTasks) - 1)]
                     user.curTask.assignTask()
@@ -215,7 +247,7 @@ def cleRemGoal(user):
                     print(str(user.curTask.set_assign) + " times.")
             elif cleRem == "Remove":
                 print("Goal Removed")
-                user.mainGoals.pop(list(user.mainGoals.keys())[chsGoal])
+                user.mainGoals.pop(chsGoal.name)
             elif cleRem == "exit":
                 print("Goals have been unchanged")
             else:
@@ -239,14 +271,13 @@ def addTask(user):
 def removeTask(user):
     if (len(user.bonusTasks) > 0):
         print("Select the number of the task you want to remove")
-        for i in range(len(user.bonusTasks)):
-            print(str(i) + ": " + user.bonusTasks[i].name)
-        chsTask = chooseInt(len(user.bonusTasks) - 1)
+        chsTask = selectByNum(user.bonusTasks)
+        ## Escape code for 'exit' goes here
         ruSure = "norp"
         while ruSure != "yes" and ruSure != "no":
             ruSure = input("Really delete task? (yes / no) ")
             if ruSure == "yes":
-                user.bonusTasks.remove(user.bonusTasks[chsTask])
+                user.bonusTasks.remove(chsTask)
                 print("Task Removed")
             elif ruSure == "no":
                 print("Task Not Removed")

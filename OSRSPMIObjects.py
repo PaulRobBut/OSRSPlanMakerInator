@@ -1,4 +1,5 @@
 import random
+## TODO: Give every object their own overriden print function
 ## Classes
 class User(): ##GP, chcArray, realChcArray, Inventory, Goals
     """
