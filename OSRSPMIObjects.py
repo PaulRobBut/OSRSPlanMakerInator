@@ -127,7 +127,6 @@ class BonusTask():
     :param sa: Set number of repetitions that need to be done (once assigned) (Integer)
     :param ca: Current number of repetitions you still need to do (once assigned) (Integer)
     """
-
     def __init__(self, n, d, ma, sa = 0, ca = 0):
         self.name = n
         self.desc = d

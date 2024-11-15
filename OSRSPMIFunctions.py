@@ -60,7 +60,21 @@ def selectByName(selMap):
             return selMap[chsKey]
         
 def removeFrom(keyVal, collField):
-    pass
+    """
+    Removes a value from a collection, if the user wants it gone
+    :param keyVal: key to the collection for the item to be removed (make sure it's an int when collField is a list)
+    :param collField: collection to be removed from
+    """
+    ruSure = "norp"
+    while ruSure != "yes" and ruSure != "no":
+        ruSure = input("Are you sure you want it removed? (yes / no) ")
+        if ruSure == "yes":
+            collField.pop(keyVal)
+            print("Item Removed")
+        elif ruSure == "no":
+            print("Item Not Removed")
+        else:
+            print("Invalid Choice")
 
 ## Chance Item Functions
 def setChcArr(user):
@@ -161,6 +175,7 @@ def createInvenItem(user):
     """
     Creates an Inventory Item for the user with their input
     """
+    ## TODO: Failsafe to stop people from starting their Item names with 'FLAG'
     invItName = input("Name of Item: ")
     invItAmnt = chooseInt(2147483647)
     ## TODO: If the item already exists in the user's inventory, add up their amounts.
@@ -171,16 +186,7 @@ def removeInvenItem(user):
         print(user.inventory.keys())
         delInvIt = selectByName(user.inventory)
         ## Escape code for 'exit' goes here
-        ruSure = "norp"
-        while ruSure != "yes" and ruSure != "no":
-            ruSure = input("Really remove inventory item? (yes / no) ")
-            if ruSure == "yes":
-                user.inventory.pop(delInvIt.name)
-                print("Item Removed")
-            elif ruSure == "no":
-                print("Item Not Removed")
-            else:
-                print("Invalid Choice")
+        removeFrom(delInvIt.name, user.inventory)
     else:
         print("You don't have anything in your inventory")
 
@@ -206,6 +212,7 @@ def createMainGoal(user):
     Creates a Main Goal based on User input
     :param user: User Object
     """
+    ## TODO: Failsafe to stop people from starting their Goal names with 'FLAG'
     goalName = input("Name of Goal: ")
     goalDesc = input("Description of Goal: ")
     goalNeedIts = []
@@ -246,8 +253,7 @@ def cleRemGoal(user):
                     print("Description: " + user.curTask.desc)
                     print(str(user.curTask.set_assign) + " times.")
             elif cleRem == "Remove":
-                print("Goal Removed")
-                user.mainGoals.pop(chsGoal.name)
+                removeFrom(chsGoal.name, user.mainGoals)
             elif cleRem == "exit":
                 print("Goals have been unchanged")
             else:
@@ -262,6 +268,8 @@ def addTask(user):
     Lets a user add their own Bonus Task
     :param user: User object
     """
+    ## TODO: Failsafe to keep people from giving different bonus tasks the same name
+    ## TODO: Failsafe to stop people from starting their task names with 'FLAG'
     taskName = input("Task Name: ")
     taskDesc = input("Task Description: ")
     print("How many repetitions (Max: 1000, Min: 1): ")
@@ -273,16 +281,7 @@ def removeTask(user):
         print("Select the number of the task you want to remove")
         chsTask = selectByNum(user.bonusTasks)
         ## Escape code for 'exit' goes here
-        ruSure = "norp"
-        while ruSure != "yes" and ruSure != "no":
-            ruSure = input("Really delete task? (yes / no) ")
-            if ruSure == "yes":
-                user.bonusTasks.remove(chsTask)
-                print("Task Removed")
-            elif ruSure == "no":
-                print("Task Not Removed")
-            else:
-                print("Invalid Choice")
+        removeFrom(user.bonusTasks.index(chsTask), user.bonusTasks)
     else:
         print("You don't have any Bonus Tasks")
 
