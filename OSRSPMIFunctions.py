@@ -27,8 +27,11 @@ def selectByNum(selArr):
     Allows a user to select an option from a list by entering a number
     :param selArr: Array to be selected from
     """
+    printWhat = ""
+    if isinstance(selArr[0], OSRSPMIObjects.BonusTask) or isinstance(selArr[0], OSRSPMIObjects.ChanceItem):
+        printWhat = "name"
     for i in range(len(selArr)):
-        if isinstance(selArr[i], OSRSPMIObjects.BonusTask):
+        if printWhat == "name":
             print(str(i) + ": " + str(selArr[i].name))
         else:
             print(str(i) + ": " + str(selArr[i]))

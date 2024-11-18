@@ -92,3 +92,38 @@ Line 10 (Line to load Bonus Tasks):			FLAG Tasks
 Line 11 (Current Tasks)						N:D:MA:SA:CA
 Lines 12+ (Bonus Task List)					N:D:MA
 
+Main Plan:
+Chance Items:
+[0,64,73,13,0,0,14,0,1,55,0]
+
+Goal: Get through all 55 Lockpicks (Pk risk be damned)
+Goal: Prep supplies for 5 entry TOAs
+- 35 Sara Brews (4)
+- 15 Super Restores (4)
+- 10 Super Combat (4)
+- 5 Sanfew (4)
+- 5 Ranging pots (4)
+- 5 Stamina (4)
+- 1k Chaos Runes
+- 1k Death Runes
+- 1k Blood Runes
+Goal: Prep Supplies for 5 Phantom Muspah Attempts
+- 1500 Sapphire Bolts (e)
+- 1500 Diamond Bolts (e)
+- 1500 Water Runes
+- 1000 Blood Runes
+- 1000 Death Runes
+- 65 Mantas
+- 25 Prayer pots (4)
+- 10 Staminas
+- 5 Divine Ranging Pots
+Task: Tempoross 10
+Task: Tempoross (solo) 10
+Task: Gauntlet (Regular) Completions 5
+Task: Gauntlet (Corrupted) Attempts 5
+Task: Barbarian Assault (up to penance queen) 1
+Task: Hallowed Sepulchre 10
+Task: Kill Araxytes 100
+Task: Chop Magic Logs 100
+Task: 10 minutes of rev caves 5
+Task: Ham Keys 100

@@ -89,7 +89,14 @@ def setState(menuChoice):
         if (len(progStateStack) > 0):
             setState(progStateStack[len(progStateStack) - 1], progNextStates)
     elif menuChoice == "Adjust Chance Item Quantity":
-        pass
+        ## TODO: Loop this
+        chsChcIt = OSRSPMIFunctions.selectByNum(user.realChcArr)
+        ## TODO: Show how much of that item you already have, and add a print statement telling user that they're setting the Chance Item's quantity to that value
+        chsChcAm = OSRSPMIFunctions.chooseInt(2147483647)
+        ChcInd = user.realChcArr.index(chsChcIt)
+        user.realChcArr[ChcInd].amount = chsChcAm
+        user.chcArr[ChcInd] = chsChcAm
+        print("Amount adjusted!")
     ## Edit Inventory
     elif menuChoice == "Add Item":
         OSRSPMIFunctions.createInvenItem(user)
