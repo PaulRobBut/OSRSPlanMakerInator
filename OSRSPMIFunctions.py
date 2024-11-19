@@ -266,6 +266,49 @@ def cleRemGoal(user):
     else:
         print("You don't have any Goals to delete")
 
+def adjNeedIts(user):
+    """
+    Lets the user adjust the needed items of a desired Goal
+    :param user: User Object
+    """
+    getGoal = selectByName(user.mainGoals)
+    for i in getGoal.neededItems:
+        i.printInvenItem()
+        goalItOpt = ""
+        while goalItOpt == "":
+            goalItOpt = input("Keep Item? (Yes, No, Change Name, Change Amount) ")
+            if goalItOpt == "Yes":
+                pass
+            elif goalItOpt == "No":
+                getGoal.neededItems.remove(i)
+            elif goalItOpt == "Change Name":
+                reNam = input("Rename to: ")
+                i.name = reNam
+                goalItOpt = ""
+            elif goalItOpt == "Change Amount":
+                print("New amount: ")
+                reAmo = chooseInt(2147483647)
+                i.amount = reAmo
+                goalItOpt = ""
+            else:
+                print("Invalid selection, choice must be Yes, No, Change Name or Change Amount (case sensitive)")
+                goalItOpt = ""
+    addIt = ""
+    while addIt == "":
+        addIt = input("Add another Item? (Yes, No) ")
+        if addIt == "Yes":
+            addItNam = input("Item Name: ")
+            print("Item Amount: ")
+            addItAmo = chooseInt(2147483647)
+            getGoal.neededItems.append(OSRSPMIObjects.InvenItem(addItNam, addItAmo))
+            print("Item Added!")
+            addIt = ""
+        elif addIt == "No":
+            pass
+        else:
+            print("Invalid selection, choice must be Yes or No (case sensitive)")
+            addIt = ""
+
 def addTask(user):
     """
     Lets a user add their own Bonus Task

@@ -102,6 +102,9 @@ def setState(menuChoice):
         OSRSPMIFunctions.createInvenItem(user)
     elif menuChoice == "Remove Item":
         OSRSPMIFunctions.removeInvenItem(user)
+    ## Edit Main Goals
+    elif menuChoice == "Adjust Needed Items":
+        OSRSPMIFunctions.adjNeedIts(user)
     ## End
     else:
         print("Construction Zone")
